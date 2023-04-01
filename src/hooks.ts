@@ -16,6 +16,8 @@ export const useApiGet = () => {
 
 	const request = async (params: string) => {
 		setLoading(true);
+		setLoaded(false);
+		
 		try {
 			const result = await api.get(params);
 			setData(result.data);

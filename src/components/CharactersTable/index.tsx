@@ -1,36 +1,44 @@
-import { useAppSelector } from "@/hooks"
-import { useEffect } from "react"
+import { useAppSelector } from "@/hooks";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function CharactersTable() {
 
 	const result = useAppSelector((state) => state.page);
+	const router = useRouter();
+
+	const goToCharacterPage = (id: number) => {
+		return router.push(`/character/${id}`);
+	}
 
 	useEffect(() => {
 		// Rendização a cada novo request de página na API
-	}, [result])
+	}, [result]);
 
 	return <>
 		<div>
-			<input placeholder="pesquisar..." />
+			<input placeholder="Search..." />
 		</div>
 		<table>
 			<thead>
 				<tr>
-					<th> Personagem </th>
+					<th> Characther </th>
 					<th> Status </th>
-					<th> Espécie </th>
-					<th> Tipo </th>
-					<th> Gênero </th>
+					<th> Species </th>
+					<th> Type </th>
+					<th> Gender </th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>Rick Sanchez</td>
-					<td>Vivo</td>
-					<td>Humano</td>
-					<td>--</td>
-					<td>Masculino</td>
-				</tr>
+				{result?.results?.map((item, index) => {
+					return <tr key={index} onClick={() => goToCharacterPage(item.id)} >
+						<td>{item.name}</td>
+						<td>{item.status}</td>
+						<td>{item.species}</td>
+						<td>{item.type || "--"}</td>
+						<td>{item.gender}</td>
+					</tr>
+				})}
 			</tbody>
 		</table>
 	</>
