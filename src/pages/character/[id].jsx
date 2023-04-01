@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useApiGet } from '../../hooks';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 const Character = () => {
 
@@ -56,6 +55,7 @@ const Character = () => {
 							{data.location?.name} </p>
 					</div>
 				</aside>
+				<button> Favorite </button>
 			</div>
 		}
 	</main>

@@ -1,11 +1,13 @@
-import CharactersTable from '@/components/CharactersTable';
 import { update } from '@/features/pageSlice';
 import { useApiGet, useAppDispatch } from '@/hooks';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import CharactersTable from '@/components/CharactersTable';
+import Paginator from '@/components/Paginator';
+
 export default function Home() {
-  
+
   const apiGet = useApiGet();
   const storeDispatch = useAppDispatch();
   const router = useRouter();
@@ -40,6 +42,7 @@ export default function Home() {
         </p>
       </header>
       <CharactersTable />
+      <Paginator />
     </main>
   )
 }
