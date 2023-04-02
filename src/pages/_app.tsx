@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 import '@/styles/filterControllerStyles.css';
 import '@/styles/characterTableStyles.css';
 import '@/styles/paginatorStyles.css';
+import '@/styles/characterPageStyle.css';
 
 const font = Alegreya_Sans_SC({
   weight: '400',
