@@ -6,6 +6,7 @@ import Head from 'next/head';
 
 import '@/styles/globals.css';
 import '@/styles/filterControllerStyles.css';
+import '@/styles/characterTableStyles.css';
 
 const font = Alegreya_Sans_SC({
   weight: '400',

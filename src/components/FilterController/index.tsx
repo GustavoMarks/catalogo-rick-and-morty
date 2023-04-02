@@ -59,7 +59,7 @@ export default function FilterController() {
 	useEffect(() => {
 		if (fav) setShowFavs(true);
 
-	}, [fav])
+	}, [fav]);
 
 	return <form className="filter-form" onSubmit={submitFilterAply}>
 		<button id="showFavsBtn" type="button" onClick={filterFavs} >
@@ -99,7 +99,7 @@ export default function FilterController() {
 					<button type="submit" >
 						<MdSearch size={20} /> Search </button>
 					<button type="button" id="clearFilters" onClick={clearInputs} >
-						<MdFilterAltOff size={20} /> Clear </button>
+						<MdFilterAltOff size={20} /> Clean </button>
 				</span>
 			</fieldset> : null
 		}
