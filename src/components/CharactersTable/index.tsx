@@ -15,31 +15,26 @@ export default function CharactersTable() {
 		// Rendização a cada novo request de página na API
 	}, [result]);
 
-	return <>
-		<div>
-			<input placeholder="Search..." />
-		</div>
-		<table>
-			<thead>
-				<tr>
-					<th> Characther </th>
-					<th> Status </th>
-					<th> Species </th>
-					<th> Type </th>
-					<th> Gender </th>
+	return <table>
+		<thead>
+			<tr>
+				<th> Characther </th>
+				<th> Status </th>
+				<th> Species </th>
+				<th> Type </th>
+				<th> Gender </th>
+			</tr>
+		</thead>
+		<tbody>
+			{result?.results?.map((item, index) => {
+				return <tr key={index} onClick={() => goToCharacterPage(item.id)} >
+					<td>{item.name}</td>
+					<td>{item.status}</td>
+					<td>{item.species}</td>
+					<td>{item.type || "--"}</td>
+					<td>{item.gender}</td>
 				</tr>
-			</thead>
-			<tbody>
-				{result?.results?.map((item, index) => {
-					return <tr key={index} onClick={() => goToCharacterPage(item.id)} >
-						<td>{item.name}</td>
-						<td>{item.status}</td>
-						<td>{item.species}</td>
-						<td>{item.type || "--"}</td>
-						<td>{item.gender}</td>
-					</tr>
-				})}
-			</tbody>
-		</table>
-	</>
+			})}
+		</tbody>
+	</table>
 }
