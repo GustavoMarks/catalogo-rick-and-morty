@@ -1,0 +1,85 @@
+.filter-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+	padding: 20px;
+	margin: 8px;
+	max-width: 720px;
+}
+
+.filter-form button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border: none;
+	border-radius: 8px;
+	height: 40px;
+	font-weight: bold;
+	background-color: var(--dark-blue-color);
+	color: var(--light-color);
+	padding: 8px;
+}
+
+.filter-form button:hover {
+	background-color: var(--light-blue-color);
+	color: var(--black-color);
+}
+
+.filter-form svg {
+	margin-right: 10px;
+}
+
+.filter-form #showFavsBtn {
+	min-width: 100%;
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+
+.filter-form fieldset {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	border: 0;
+}
+
+.filter-form fieldset label {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin: 4px;
+	border: 1px solid var(--gray-color);
+	border-radius: 4px;
+	height: 30px;
+	padding: 4px;
+}
+
+.filter-form fieldset input, select {
+	border: none;
+	height: 28px;
+	background-color: transparent;
+	margin-left: 4px;
+	width: 100%;
+}
+ 
+.filter-form fieldset span {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+	height: 30px;
+	padding: 4px;
+	display: flex;
+	margin-top: 8px;
+}
+
+#clearFilters {
+	margin-left: 8px;
+	background-color: var(--black-color);
+}
+
+#clearFilters:hover {
+	background-color: var(--light-blue-color);
+}

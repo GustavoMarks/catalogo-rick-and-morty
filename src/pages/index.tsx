@@ -2,10 +2,13 @@ import { update } from '@/features/pageSlice';
 import { useApiGet, useAppDispatch, useLocalStorageFavorites } from '@/hooks';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 import CharactersTable from '@/components/CharactersTable';
 import Paginator from '@/components/Paginator';
 import FilterController from '@/components/FilterController';
+import RickAndMortyImg from '../assets/rickAndMorty.png';
+import BackgroundImg from '../assets/background.webp';
 
 export default function Home() {
 
@@ -28,9 +31,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // Aguardando verificação de querys
-    // if (router.isReady) return
-
     if (!fav) {
       console.log(fav);
       let query = '?';
@@ -42,7 +42,7 @@ export default function Home() {
       if (gender) query += `&gender=${gender}`;
 
       requestPage(String(query));
-      
+
     } else requestFavs();
 
   }, [page, name, species, type, gender, status, fav]);
@@ -69,18 +69,25 @@ export default function Home() {
   }, [fav, apiGetFavs.loaded])
 
   return (
-    <main>
+    <main className="MainPage" >
       <header>
-        <h1>
-          <b>Rick and Morty</b> Catalog
-        </h1>
-        <p>
-          Complete list of characters
-        </p>
+        <Image id="main-background" src={BackgroundImg} alt="green portal" />
+        <span>
+          <h1>
+            <b>Rick and Morty </b> Catalog
+          </h1>
+          <p>
+            Complete list of characters
+          </p>
+
+          <Image id="decorate-img" src={RickAndMortyImg} alt="Rick And Morty" width={320} />
+        </span>
       </header>
-      <FilterController />
-      <CharactersTable />
-      <Paginator />
+      <div id="Container">
+        <FilterController />
+        <CharactersTable />
+        <Paginator />
+      </div>
     </main>
   )
 }

@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+import { FormEvent, useEffect, useState } from 'react';
+import { MdStar, MdFilterAlt, MdSearch, MdFilterAltOff } from 'react-icons/md'
 
 const statusOptions = [
 	"alive", "dead", "unknown"
@@ -60,35 +61,48 @@ export default function FilterController() {
 
 	}, [fav])
 
-	return <form onSubmit={submitFilterAply}>
-		<button type="button" onClick={filterFavs} > {showFavs ? "clear favorites" : "see favorites"} </button>
-		<fieldset disabled={showFavs}>
-			<label> Name: </label>
-			<input value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder="filter by..." />
-			<label> Status: </label>
-			<select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} >
-				<option value="" > Select a status... </option>
-				{statusOptions.map((item, index) => {
-					return <option key={index} value={item}>{item}</option>
-				})}
-			</select>
-			<label> Species: </label>
-			<input value={speciesInput} onChange={(e) => setSpeciesInput(e.target.value)} placeholder="filter by..." />
-			<label> Type: </label>
-			<input value={typeInput} onChange={(e) => setTypeInput(e.target.value)} placeholder="filter by..." />
-			<label> Gender: </label>
-			<select value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} >
-				<option value="" > Select a gender... </option>
-				{genderOptions.map((item, index) => {
-					return <option key={index} value={item}>{item}</option>
-				})}
-			</select>
+	return <form className="filter-form" onSubmit={submitFilterAply}>
+		<button id="showFavsBtn" type="button" onClick={filterFavs} >
+			{showFavs ?
+				<> <MdFilterAlt size={20} /> see filters </> :
+				<> <MdStar size={20} /> see favorites </>}
+		</button>
+		{!showFavs ?
+			<fieldset disabled={showFavs}>
+				<label> name:
+					<input value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder="filter by..." />
+				</label>
+				<label> status:
+					<select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} >
+						<option value="" > Select a status... </option>
+						{statusOptions.map((item, index) => {
+							return <option key={index} value={item}>{item}</option>
+						})}
+					</select>
+				</label>
+				<label> species:
+					<input value={speciesInput} onChange={(e) => setSpeciesInput(e.target.value)} placeholder="filter by..." />
+				</label>
+				<label> type:
+					<input value={typeInput} onChange={(e) => setTypeInput(e.target.value)} placeholder="filter by..." />
+				</label>
+				<label> gender:
+					<select value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} >
+						<option value="" > Select a gender... </option>
+						{genderOptions.map((item, index) => {
+							return <option key={index} value={item}>{item}</option>
+						})}
+					</select>
+				</label>
 
-			<span>
-				<button type="submit" > Search </button>
-				<button type="button" onClick={clearInputs} > Clear </button>
-			</span>
-		</fieldset>
+				<span>
+					<button type="submit" >
+						<MdSearch size={20} /> Search </button>
+					<button type="button" id="clearFilters" onClick={clearInputs} >
+						<MdFilterAltOff size={20} /> Clear </button>
+				</span>
+			</fieldset> : null
+		}
 	</form>
 }
 
