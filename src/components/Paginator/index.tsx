@@ -6,7 +6,7 @@ export default function Paginator() {
 
 	const { results, info } = useAppSelector((state) => state.page);  // Buscando informações da página carregada no estado global
 	const router = useRouter();
-	const { page, name, species, type, gender, status } = router.query;
+	const { page, name, species, type, gender, status, fav } = router.query;
 
 	const itemsInPage = results?.length || 0;
 	const maxItemsInPage = 20;
@@ -40,9 +40,9 @@ export default function Paginator() {
 		router.push(query);
 	}
 
-	useEffect(() => { }, [page, info]);
+	useEffect(() => { }, [page, fav, info, results]);
 
-	if (buttonsNumbers.length > 1)
+	if (buttonsNumbers.length > 1 && info)
 		return <div>
 			<p> Page {pageNumber}/{info?.pages || page}, {totalItensAfter}~{totalItensAfter - 1 + itemsInPage} </p>
 			{!hasButtonPage1 ? <>

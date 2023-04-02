@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 export default function CharactersTable() {
 
-	const result = useAppSelector((state) => state.page);
+	const { results, info } = useAppSelector((state) => state.page);
 	const router = useRouter();
 
 	const goToCharacterPage = (id: number) => {
@@ -13,7 +13,7 @@ export default function CharactersTable() {
 
 	useEffect(() => {
 		// Rendização a cada novo request de página na API
-	}, [result]);
+	}, [results, info]);
 
 	return <table>
 		<thead>
@@ -26,7 +26,7 @@ export default function CharactersTable() {
 			</tr>
 		</thead>
 		<tbody>
-			{result?.results?.map((item, index) => {
+			{results?.map((item, index) => {
 				return <tr key={index} onClick={() => goToCharacterPage(item.id)} >
 					<td>{item.name}</td>
 					<td>{item.status}</td>

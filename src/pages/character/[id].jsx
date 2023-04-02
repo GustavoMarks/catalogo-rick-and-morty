@@ -1,21 +1,36 @@
 import { useEffect, useState } from 'react';
-import { useApiGet } from '../../hooks';
+import { useApiGet, useLocalStorageFavorites } from '../../hooks';
 import { useRouter } from 'next/router';
 
 const Character = () => {
 
 	const [data, setData] = useState(null);
+	const [favs, setFavs] = useState([]);
+
 	const apiGet = useApiGet();
 	const router = useRouter();
+	const favsStorage = useLocalStorageFavorites();
+
 	const { id } = router.query;
 
-	const requestData = async () => await apiGet.request(`/character/${id}`);
+	const requestData = async () => { if (id) await apiGet.request(`/character/${id}`) };
+	const isFav = favs.find(item => String(item) === id);
+
+	const handleClickFav = () => {
+		if (isFav) favsStorage.removeItem(id);
+		else favsStorage.setNewItem(id);
+
+		setFavs(favsStorage.getItems());
+	}
 
 	useEffect(() => {
+		if (apiGet.error) router.push("/");
+
 		if (!apiGet.loaded) requestData();
 		else setData(apiGet.data);
 
-	}, [apiGet.data]);
+		setFavs(favsStorage.getItems());
+	}, [apiGet.data, id, apiGet.error]);
 
 	return <main>
 		<button onClick={() => router.back()} > voltar </button>
@@ -55,7 +70,9 @@ const Character = () => {
 							{data.location?.name} </p>
 					</div>
 				</aside>
-				<button> Favorite </button>
+				<button onClick={handleClickFav} >
+					{isFav ? "Remove favorite" : "Favorite"}
+				</button>
 			</div>
 		}
 	</main>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const statusOptions = [
 	"alive", "dead", "unknown"
@@ -18,7 +18,28 @@ export default function FilterController() {
 	const [selectedStatus, setSelectedStatus] = useState("");
 	const [selectedGender, setSelectedGender] = useState("");
 
+	const [showFavs, setShowFavs] = useState(false);
+
 	const router = useRouter();
+	const { fav } = router.query;
+
+	const clearInputs = () => {
+		setNameInput("");
+		setSpeciesInput("");
+		setTypeInput("");
+		setSelectedStatus("");
+		setSelectedGender("");
+	}
+
+	const filterFavs = async () => {
+		if (!showFavs) {
+			setShowFavs(true);
+			router.push("/?fav=true");
+		} else {
+			setShowFavs(false);
+			router.push("/?page=1");
+		}
+	}
 
 	const submitFilterAply = (e: FormEvent) => {
 		e.preventDefault();
@@ -34,31 +55,40 @@ export default function FilterController() {
 		return router.push(query);
 	}
 
-	return <form onSubmit={submitFilterAply}>
-		<label> Name: </label>
-		<input value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder="filter by..." />
-		<label> Status: </label>
-		<select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} >
-			<option value="" > Select a status... </option>
-			{statusOptions.map((item, index) => {
-				return <option key={index} value={item}>{item}</option>
-			})}
-		</select>
-		<label> Species: </label>
-		<input value={speciesInput} onChange={(e) => setSpeciesInput(e.target.value)} placeholder="filter by..." />
-		<label> Type: </label>
-		<input value={typeInput} onChange={(e) => setTypeInput(e.target.value)} placeholder="filter by..." />
-		<label> Gender: </label>
-		<select value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} >
-			<option value="" > Select a gender... </option>
-			{genderOptions.map((item, index) => {
-				return <option key={index} value={item}>{item}</option>
-			})}
-		</select>
+	useEffect(() => {
+		if (fav) setShowFavs(true);
 
-		<span>
-			<button type="submit" > Search </button>
-		</span>
+	}, [fav])
+
+	return <form onSubmit={submitFilterAply}>
+		<button type="button" onClick={filterFavs} > {showFavs ? "clear favorites" : "see favorites"} </button>
+		<fieldset disabled={showFavs}>
+			<label> Name: </label>
+			<input value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder="filter by..." />
+			<label> Status: </label>
+			<select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} >
+				<option value="" > Select a status... </option>
+				{statusOptions.map((item, index) => {
+					return <option key={index} value={item}>{item}</option>
+				})}
+			</select>
+			<label> Species: </label>
+			<input value={speciesInput} onChange={(e) => setSpeciesInput(e.target.value)} placeholder="filter by..." />
+			<label> Type: </label>
+			<input value={typeInput} onChange={(e) => setTypeInput(e.target.value)} placeholder="filter by..." />
+			<label> Gender: </label>
+			<select value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} >
+				<option value="" > Select a gender... </option>
+				{genderOptions.map((item, index) => {
+					return <option key={index} value={item}>{item}</option>
+				})}
+			</select>
+
+			<span>
+				<button type="submit" > Search </button>
+				<button type="button" onClick={clearInputs} > Clear </button>
+			</span>
+		</fieldset>
 	</form>
 }
 
