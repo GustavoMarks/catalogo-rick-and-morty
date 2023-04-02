@@ -37,26 +37,28 @@ export default function Paginator() {
 		if (status) query += `&status=${status}`;
 		if (gender) query += `&gender=${gender}`;
 
-		router.push(query);
+		router.push(query, undefined, { scroll: false });
 	}
 
 	useEffect(() => { }, [page, fav, info, results]);
 
 	if (buttonsNumbers.length > 1 && info)
-		return <div>
+		return <div className="paginator">
 			<p> Page {pageNumber}/{info?.pages || page}, {totalItensAfter}~{totalItensAfter - 1 + itemsInPage} </p>
-			{!hasButtonPage1 ? <>
-				<button onClick={() => pageNavigate(1)} >
-					1 </button>...</> : null}
+			<span>
+				{!hasButtonPage1 ? <>
+					<button onClick={() => pageNavigate(1)} >
+						1 </button>...</> : null}
 
-			{buttonsNumbers.map((item, index) => {
-				return <button key={index} onClick={() => pageNavigate(item)}>
-					{item} </button>
-			})}
+				{buttonsNumbers.map((item, index) => {
+					return <button key={index} onClick={() => pageNavigate(item)}>
+						{item} </button>
+				})}
 
-			{!hasLastButtonPage ? <>...
-				<button onClick={() => pageNavigate(info?.pages || 1)}>
-					{info?.pages || 1} </button></> : null}
+				{!hasLastButtonPage ? <>...
+					<button onClick={() => pageNavigate(info?.pages || 1)}>
+						{info?.pages || 1} </button></> : null}
+			</span>
 		</div>
 	return <></>
 }
