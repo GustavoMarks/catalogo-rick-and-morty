@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import { ThemeProvider } from '@mui/material/styles';
 import themeConfig from '@/configs/themeConfig';
+import Footer from '@/components/layout/Footer';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -15,14 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <main>
         <Component {...pageProps} />
       </main>
-      <footer>
-        2023 • <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/GustavoMarks/catalogo-rick-and-morty">
-          &nbsp;Visit on GitHub
-        </a>
-      </footer>
+      <Footer />
 		</ThemeProvider>
 	)
 }
