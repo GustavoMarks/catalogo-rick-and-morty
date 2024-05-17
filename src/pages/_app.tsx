@@ -1,26 +1,12 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import { ThemeOptions, ThemeProvider } from '@mui/material/styles';
-
-export const themeOptions: ThemeOptions = {
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#92DB25',
-    },
-    secondary: {
-      main: '#B4E6FC',
-    },
-  },
-  typography: {
-    fontFamily: 'Alegreya Sans',
-  },
-};
+import { ThemeProvider } from '@mui/material/styles';
+import themeConfig from '@/configs/themeConfig';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-		<ThemeProvider theme={themeOptions}>
+		<ThemeProvider theme={themeConfig}>
       <Head>
         <title>Rick and Morty Catalog</title>
         <meta name="description" content="Catalog with list of characters from the animated series Rick and Morty" />
