@@ -1,6 +1,6 @@
-import { ThemeOptions } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-const themeConfig: ThemeOptions = {
+const themeConfig = createTheme({
   palette: {
     mode: 'dark',
     primary: {
@@ -11,8 +11,8 @@ const themeConfig: ThemeOptions = {
     },
   },
   typography: {
-    fontFamily: 'Alegreya Sans',
+    fontFamily: 'inherit',
   },
-};
+});
 
 export default themeConfig;
