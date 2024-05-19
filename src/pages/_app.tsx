@@ -7,6 +7,7 @@ import themeConfig from '@/configs/themeConfig';
 import Footer from '@/components/layout/Footer';
 
 import '@/styles/global.css';
+import MainContainer from '@/components/layout/MainContainer';
 
 const fontFamily = Alegreya_Sans_SC({
   weight: '400',
@@ -21,13 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="description" content="Catalog with list of characters from the animated series Rick and Morty" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main style={{
-        margin: 0,
-        padding: 0,
-        minHeight: '95vh',
-      }}>
+      <MainContainer >
         <Component {...pageProps} />
-      </main>
+      </MainContainer>
       <Footer className={fontFamily.className} />
 		</ThemeProvider>
 	)
