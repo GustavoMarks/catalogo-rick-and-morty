@@ -1,0 +1,50 @@
+{
+  "extends": ["airbnb", "airbnb-typescript"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "import-helpers"],
+  "rules": {
+    "no-tabs": 0,
+    "indent": "off",
+    "operator-linebreak": "off",
+    "object-curly-newline": "off",
+    "linebreak-style": 0,
+    "jsx-quotes": [2, "prefer-single"],
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-indent-props": "off",
+    "react/jsx-indent": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-confusing-arrow": "off",
+    "@typescript-eslint/indent": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always", // Cria uma nova linha para separar as importacoes
+        "groups": [
+          "/^react/",
+          "/^next/",
+          "module",
+          "/^@shared/",
+          "absolute",
+          "/^context/",
+          "/^hooks/",
+          ["/^helpers/", "/^utils/", "/^services/", "/^constants/", "/^../..//"],
+          "/^pages/",
+          "/^templates/",
+          ["parent", "sibling", "index"],
+          "/^@mui/",
+          "/^@mui/icons-material/",
+          "/components/",
+          "/^src/configs/",
+          "/^.//"
+        ],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
+  }
+}
