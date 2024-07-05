@@ -17,10 +17,13 @@
     "react/destructuring-assignment": "off",
     "react/jsx-indent-props": "off",
     "react/jsx-indent": "off",
+    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-shadow": "off",
+    "react/require-default-props": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "no-confusing-arrow": "off",
     "@typescript-eslint/indent": "off",
+    "import/extensions": "off",
     "import-helpers/order-imports": [
       "warn",
       {

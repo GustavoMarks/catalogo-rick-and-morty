@@ -15,6 +15,7 @@
 
 # production
 /build
+/src/version.ts
 
 # misc
 .DS_Store

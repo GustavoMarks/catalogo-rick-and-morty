@@ -1,31 +1,36 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Alegreya_Sans_SC } from 'next/font/google'
 
 import { ThemeProvider } from '@mui/material/styles';
-import themeConfig from '@/configs/themeConfig';
-import Footer from '@/components/layout/Footer';
 
-import '@/styles/global.css';
+import AppBar from '@/components/layout/AppBar';
+import Footer from '@/components/layout/Footer';
 import MainContainer from '@/components/layout/MainContainer';
 
-const fontFamily = Alegreya_Sans_SC({
-  weight: '400',
-  subsets: ['latin'],
-})
+import themeConfig from '@/configs/themeConfig';
+
+import '@/styles/global.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-		<ThemeProvider theme={themeConfig}>
+    <ThemeProvider theme={themeConfig}>
       <Head>
         <title>Rick and Morty Catalog</title>
-        <meta name="description" content="Catalog with list of characters from the animated series Rick and Morty" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name='description' content='Find everything about the series' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='apple-touch-icon' sizes='180x180' href='/images/icons/apple-touch-icon.png' />
+        <link rel='shortcut icon' href='/images/icons/android-chrome-192x192.png' />
+        <meta property='og:image' content='/images/home-background.webp' />
+        <meta property='og:image:alt' content='Rick and Morty Catalog' />
+        <meta property='og:image:type' content='image/webp' />
+        <meta property='og:image:width' content='1920' />
+        <meta property='og:image:height' content='1080' />
       </Head>
-      <MainContainer >
+      <AppBar />
+      <MainContainer>
         <Component {...pageProps} />
       </MainContainer>
-      <Footer className={fontFamily.className} />
-		</ThemeProvider>
-	)
+      <Footer />
+    </ThemeProvider>
+  );
 }
