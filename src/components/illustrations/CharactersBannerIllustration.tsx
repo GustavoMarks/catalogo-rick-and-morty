@@ -5,9 +5,9 @@ import Slide from '@mui/material/Slide';
 
 import { setMovingEyesAnimation } from '@/helpers/utils';
 
-const MAIN_IMG_ID = 'rick-and-morty-illustration';
+const MAIN_IMG_ID = 'summer-illustration';
 
-export default function HomeBannerIllustration() {
+export default function CharactersBannerIllustration() {
 	const [angleMovingAnimation, setAngleMovingAnimation] = useState(0);
 
 	const setMovingEyesAnimationCallback = useCallback((event: MouseEvent) => {
@@ -33,57 +33,35 @@ export default function HomeBannerIllustration() {
 				<Box
 					sx={{
 						position: 'absolute',
-						right: '-50px',
+						right: '40px',
 						bottom: '-5px',
 					}}
 				>
 					<img
 						id={MAIN_IMG_ID}
-						src='/images/rick-and-morty.png'
+						src='/images/summer.png'
 						alt='rick and morty'
-						width={500}
+						width={180}
 					/>
 					<img
 						src='/images/eye.jpg'
-						alt='rick right eye'
-						width={15}
+						alt='summer right eye'
+						width={9}
 						style={{
 							position: 'absolute',
-							bottom: '193px',
-							right: '180px',
+							bottom: '188px',
+							right: '90px',
 							transform: `rotate(${90 + angleMovingAnimation}deg)`,
 						}}
 					/>
 					<img
 						src='/images/eye.jpg'
-						alt='rick left eye'
-						width={15}
+						alt='summer left eye'
+						width={9}
 						style={{
 							position: 'absolute',
-							bottom: '193px',
-							right: '215px',
-							transform: `rotate(${90 + angleMovingAnimation}deg)`,
-						}}
-					/>
-					<img
-						src='/images/eye.jpg'
-						alt='morty right eye'
-						width={15}
-						style={{
-							position: 'absolute',
-							bottom: '103px',
-							right: '275px',
-							transform: `rotate(${90 + angleMovingAnimation}deg)`,
-						}}
-					/>
-					<img
-						src='/images/eye.jpg'
-						alt='morty left eye'
-						width={15}
-						style={{
-							position: 'absolute',
-							bottom: '96px',
-							right: '318px',
+							bottom: '190px',
+							right: '55px',
 							transform: `rotate(${90 + angleMovingAnimation}deg)`,
 						}}
 					/>

@@ -15,6 +15,15 @@ const themeConfig = createTheme({
   typography: {
     fontFamily: 'inherit',
   },
+  mixins: {
+    // @ts-ignore
+    MuiDataGrid: {
+      // Pinned columns sections
+      pinnedBackground: '#340606',
+      // Headers, and top & bottom fixed rows
+      containerBackground: '#121212',
+    },
+  },
 });
 
 export default themeConfig;
