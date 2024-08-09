@@ -1,13 +1,16 @@
 import { useMutation } from 'react-query';
 
-import { getAllChachersByFilter } from '@/services/characters';
+import { getAllCharactersByFilter, getOneCharacterByID } from '@/services/characters';
 import { GetAllCharacterFiltersProps } from '@/services/characters/types';
 
 const useCharacters = () => {
-	const getAllChachersByFilterMutation = useMutation(
-		(filters?: GetAllCharacterFiltersProps) => getAllChachersByFilter(filters));
+	const getAllCharactersByFiltersMutation = useMutation(
+		(filters?: GetAllCharacterFiltersProps) => getAllCharactersByFilter(filters));
+
+	const getOneCharacterByIDMutation = useMutation((id: string) => getOneCharacterByID(id));
 	return {
-		getAllChachersByFilterMutation,
+		getAllCharactersByFiltersMutation,
+		getOneCharacterByIDMutation,
 	};
 };
 

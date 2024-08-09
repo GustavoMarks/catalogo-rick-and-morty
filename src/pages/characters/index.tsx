@@ -18,13 +18,13 @@ import CharactersFiltersForm from '@/views/characters/CharactersFiltersForm';
 export default function CharactersList() {
 	const [data, setData] = useState<GetAllCharacterProps | null>(null);
 	const [filters, setFilters] = useState<GetAllCharacterFiltersProps>({});
-	const { getAllChachersByFilterMutation } = useCharacters();
+	const { getAllCharactersByFiltersMutation } = useCharacters();
 
-	const { isLoading } = getAllChachersByFilterMutation;
+	const { isLoading } = getAllCharactersByFiltersMutation;
 
 	const handleUpdateData = useCallback(async (newFilters?: GetAllCharacterFiltersProps) => {
 		try {
-			const fetchedData = await getAllChachersByFilterMutation.mutateAsync(newFilters);
+			const fetchedData = await getAllCharactersByFiltersMutation.mutateAsync(newFilters);
 			setData(fetchedData);
 		} catch (err) {
 			setData(null);

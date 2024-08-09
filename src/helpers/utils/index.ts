@@ -1,3 +1,5 @@
+import { NextRouter } from 'next/router';
+
 /* eslint-disable import/prefer-default-export */
 export function getAngle(cx: number, cy: number, ex: number, ey: number): number {
 	const dy = ey - cy;
@@ -46,4 +48,13 @@ export function convertObjectToQueryString(object: { [key: string]: any }): stri
 		}
 	});
 	return result;
+}
+
+export function pageHistoryReturn(router: NextRouter, alternativeRoute?: string) {
+	if (window.history && window.history.length > 1) {
+		router.back();
+		return;
+	}
+
+	router.push(alternativeRoute || '/');
 }
