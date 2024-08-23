@@ -17,6 +17,17 @@ export async function getAllEpisodesByFilter(filters?: GetAllEpisodesFiltersProp
 	}
 }
 
+export async function getEpisodesByIDList(ids: string[]): Promise<EpisodeSchema[]> {
+	try {
+		const response = await api.get(`${EPISODE_ENDPOINT}/${ids.join(',')}`);
+		if (Array.isArray(response.data)) return response.data;
+		if (typeof response.data === 'object') return [response.data];
+		return [];
+	} catch (err) {
+		throw new Error('Unexpected error');
+	}
+}
+
 export async function getOneEpisodeByID(id: string): Promise<EpisodeSchema> {
 	try {
 		const response = await api.get(`${EPISODE_ENDPOINT}/${id}`);

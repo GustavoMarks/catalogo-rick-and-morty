@@ -43,26 +43,27 @@ const columns: GridColDef<EpisodeSchema>[] = [
 ];
 
 interface CharactersDataGridProps {
-	data: GetAllEpisodesProps | null;
-	filters: GetAllEpisodesFiltersProps;
+	data?: GetAllEpisodesProps | null;
+	listaData?: EpisodeSchema[];
+	filters?: GetAllEpisodesFiltersProps;
 	isLoading: boolean;
 	pagination?: boolean;
-	onFiltersChange: (filters: GetAllEpisodesFiltersProps) => void;
+	onFiltersChange?: (filters: GetAllEpisodesFiltersProps) => void;
 }
 
 export default function EpisodesDataGrid(props: CharactersDataGridProps) {
-	const { data, filters, isLoading, pagination = true, onFiltersChange } = props;
+	const { data, listaData, filters, isLoading, pagination = true, onFiltersChange } = props;
 
 	const getCurrentPage = useCallback(() => {
 		if (!filters || !filters?.page) return 0;
 		const parsedPage = parseInt(filters.page, 10);
 		if (parsedPage >= 1) return parsedPage - 1;
 		return 0;
-	}, [filters.page]);
+	}, [filters?.page]);
 
 	return (
 		<DataGrid
-			rows={data?.results || []}
+			rows={listaData || data?.results || []}
 			columns={columns}
 			disableRowSelectionOnClick
 			loading={isLoading}
@@ -71,10 +72,10 @@ export default function EpisodesDataGrid(props: CharactersDataGridProps) {
 			pageSizeOptions={[]}
 			paginationModel={pagination ? { pageSize: 20, page: getCurrentPage() } : undefined}
 			paginationMode={pagination ? 'server' : undefined}
-			rowCount={data?.info.count || 0}
+			rowCount={data?.info.count || undefined}
 			onPaginationModelChange={
 				pagination ?
-					(model) => onFiltersChange({ ...filters, page: String(model.page + 1) })
+					(model) => onFiltersChange?.({ ...filters, page: String(model.page + 1) })
 					: undefined
 			}
 		/>

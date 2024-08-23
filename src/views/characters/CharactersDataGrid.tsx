@@ -60,7 +60,7 @@ const columns: GridColDef<CharacterSchema>[] = [
 							clickable
 						/>
 					</Link>
-					<Link href={`${constants.PATH_EPISODES_PAGE}/?id=${String(episodeIdList)}`}>
+					<Link href={`${constants.PATH_EPISODES_PAGE}/list/${String(episodeIdList)}?id_character=${row.id}`}>
 						<Chip sx={{ ml: 1 }} label='Episodes List' clickable />
 					</Link>
 				</Box>

@@ -56,7 +56,7 @@ export default function DataGrid(props: DataGridProps) {
 				getRowClassName={(params) =>
 					params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : ''}
 				slots={{
-					pagination: CustomPagination,
+					pagination: props.pagination ? CustomPagination : null,
 				}}
 			/>
 		</Box>
