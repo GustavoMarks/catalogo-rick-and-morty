@@ -45,4 +45,6 @@ export default {
 	STATUS_OPTIONS: statusOptions,
 	SPECIES_OPTIONS: speciesOptions,
 	GENDER_OPTIONS: gendersOptions,
+	QUERY_ID_CHRACTER: 'id_character',
+	QUERY_ID_EPISODE: 'id_episode',
 } as const;

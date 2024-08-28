@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -28,7 +28,7 @@ import {
 import InfoBox from '@/components/InfoBox';
 
 import constants from '@/helpers/constants';
-import { getIdFromApiURL, pageHistoryReturn } from '@/helpers/utils';
+import { getPathCharachtersListForEpisode, pageHistoryReturn } from '@/helpers/utils';
 import useEpisodes from '@/hooks/useEpisodes';
 import { EpisodeSchema } from '@/services/episodes/types';
 
@@ -65,7 +65,7 @@ export default function EpisodeDetailsPage() {
 		}
 	}, [getOneEpisodeByIDMutation.isError]);
 
-	const charactersIdList = data?.characters?.map((item) => getIdFromApiURL(item));
+	const charactersListPath = useMemo(() => getPathCharachtersListForEpisode(data), [data]);
 
 	return (
 		<Grid container mb={3}>
@@ -181,7 +181,7 @@ export default function EpisodeDetailsPage() {
 								<Button
 									startIcon={<ListAltOutlined />}
 									LinkComponent={Link}
-									href={`${constants.PATH_CHARACTERS_PAGE}/list/${String(charactersIdList)}?id_episode=${data?.id}`}
+									href={charactersListPath}
 									disabled={isLoading}
 								>
 									Characters in this episode

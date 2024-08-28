@@ -10,7 +10,7 @@ import DataGrid from '@/components/DataGrid';
 import ModalExpandImg from '@/components/ModalExpandImg';
 
 import constants from '@/helpers/constants';
-import { getIdFromApiURL } from '@/helpers/utils';
+import { getPathEpisodesListForCharacter } from '@/helpers/utils';
 import { CharacterSchema, GetAllCharacterFiltersProps, GetAllCharacterProps } from '@/services/characters/types';
 
 function RenderCharacterNameAvatar({ data }: { data: CharacterSchema }) {
@@ -51,7 +51,7 @@ const columns: GridColDef<CharacterSchema>[] = [
 		flex: 0.8,
 		sortable: false,
 		renderCell: ({ row }) => {
-			const episodeIdList = row.episode.map((ep) => getIdFromApiURL(ep));
+			const episodeListPath = getPathEpisodesListForCharacter(row);
 			return (
 				<Box>
 					<Link href={`${constants.PATH_CHARACTERS_PAGE}/details/${row.id}`}>
@@ -60,7 +60,7 @@ const columns: GridColDef<CharacterSchema>[] = [
 							clickable
 						/>
 					</Link>
-					<Link href={`${constants.PATH_EPISODES_PAGE}/list/${String(episodeIdList)}?id_character=${row.id}`}>
+					<Link href={episodeListPath}>
 						<Chip sx={{ ml: 1 }} label='Episodes List' clickable />
 					</Link>
 				</Box>

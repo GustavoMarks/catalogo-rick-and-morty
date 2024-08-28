@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -33,11 +33,11 @@ import {
 import InfoBox from '@/components/InfoBox';
 
 import constants from '@/helpers/constants';
-import { pageHistoryReturn } from '@/helpers/utils';
+import { getPathEpisodesListForCharacter, pageHistoryReturn } from '@/helpers/utils';
 import useCharacters from '@/hooks/useCharacters';
 import { CharacterSchema } from '@/services/characters/types';
 
-export default function CharactersList() {
+export default function CharacterDetailsPage() {
 	const [data, setData] = useState<CharacterSchema | null>(null);
 	const [routerLoaded, setRouterLoaded] = useState(false);
 	const { getOneCharacterByIDMutation } = useCharacters();
@@ -69,6 +69,8 @@ export default function CharactersList() {
 			router.push('/404');
 		}
 	}, [getOneCharacterByIDMutation.isError]);
+
+	const episodesListPath = useMemo(() => getPathEpisodesListForCharacter(data), [data]);
 
 	return (
 		<Grid container mb={3}>
@@ -226,7 +228,8 @@ export default function CharactersList() {
 								</Button>
 								<Button
 									startIcon={<ListAltOutlined />}
-									disabled
+									LinkComponent={Link}
+									href={episodesListPath}
 								>
 									Episodes list
 								</Button>

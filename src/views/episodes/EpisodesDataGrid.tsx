@@ -9,7 +9,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import DataGrid from '@/components/DataGrid';
 
 import constants from '@/helpers/constants';
-import { getIdFromApiURL } from '@/helpers/utils';
+import { getPathCharachtersListForEpisode } from '@/helpers/utils';
 import { EpisodeSchema, GetAllEpisodesFiltersProps, GetAllEpisodesProps } from '@/services/episodes/types';
 
 const columns: GridColDef<EpisodeSchema>[] = [
@@ -22,7 +22,7 @@ const columns: GridColDef<EpisodeSchema>[] = [
 		flex: 0.5,
 		sortable: false,
 		renderCell: ({ row }) => {
-			const charactersIdList = row.characters?.map((item) => getIdFromApiURL(item));
+			const chractersListPath = getPathCharachtersListForEpisode(row);
 			return (
 				<Box>
 					<Link href={`${constants.PATH_EPISODES_PAGE}/details/${row.id}`}>
@@ -33,7 +33,7 @@ const columns: GridColDef<EpisodeSchema>[] = [
 							/>
 						</Tooltip>
 					</Link>
-					<Link href={`${constants.PATH_CHARACTERS_PAGE}/list/${String(charactersIdList)}`}>
+					<Link href={chractersListPath}>
 						<Chip sx={{ ml: 1 }} label='Characters List' clickable />
 					</Link>
 				</Box>

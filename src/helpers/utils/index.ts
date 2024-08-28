@@ -1,5 +1,10 @@
 import { NextRouter } from 'next/router';
 
+import constants from '../constants';
+
+import { CharacterSchema } from '@/services/characters/types';
+import { EpisodeSchema } from '@/services/episodes/types';
+
 /* eslint-disable import/prefer-default-export */
 export function getAngle(cx: number, cy: number, ex: number, ey: number): number {
 	const dy = ey - cy;
@@ -57,4 +62,16 @@ export function pageHistoryReturn(router: NextRouter, alternativeRoute?: string)
 	}
 
 	router.push(alternativeRoute || '/');
+}
+
+export function getPathEpisodesListForCharacter(data: CharacterSchema | null) {
+	if (!data) return '';
+	const episodeIdList = data?.episode.map((ep) => getIdFromApiURL(ep));
+	return `${constants.PATH_EPISODES_PAGE}/list/${String(episodeIdList)}?${constants.QUERY_ID_CHRACTER}=${data?.id}`;
+}
+
+export function getPathCharachtersListForEpisode(data: EpisodeSchema | null) {
+	if (!data) return '';
+	const chracterIdList = data?.characters.map((ep) => getIdFromApiURL(ep));
+	return `${constants.PATH_EPISODES_PAGE}/list/${String(chracterIdList)}?${constants.QUERY_ID_EPISODE}=${data?.id}`;
 }

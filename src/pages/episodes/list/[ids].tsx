@@ -59,7 +59,7 @@ export default function EpisodesList() {
 		if (!router.isReady || routeLoaded) return;
 		const {
 			ids,
-			id_character: idCharacter,
+			[constants.QUERY_ID_CHRACTER]: idCharacter,
 		} = router.query;
 
 		const idsList = String(ids).split(',');
