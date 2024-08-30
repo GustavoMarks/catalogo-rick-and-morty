@@ -231,7 +231,7 @@ export default function CharacterDetailsPage() {
 									LinkComponent={Link}
 									href={episodesListPath}
 								>
-									Episodes list
+									Episodes with this Character
 								</Button>
 								<Button
 									endIcon={<FavoriteOutlined />}
