@@ -17,6 +17,17 @@ export async function getAllCharactersByFilter(filters?: GetAllCharacterFiltersP
 	}
 }
 
+export async function getCharactersByIDList(ids: string[]): Promise<CharacterSchema[]> {
+	try {
+		const response = await api.get(`${CHARACTER_ENDPOINT}/${ids.join(',')}`);
+		if (Array.isArray(response.data)) return response.data;
+		if (typeof response.data === 'object') return [response.data];
+		return [];
+	} catch (err) {
+		throw new Error('Unexpected error');
+	}
+}
+
 export async function getOneCharacterByID(id: string): Promise<CharacterSchema> {
 	try {
 		const response = await api.get(`${CHARACTER_ENDPOINT}/${id}`);

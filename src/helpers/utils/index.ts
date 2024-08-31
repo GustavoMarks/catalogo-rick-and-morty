@@ -73,5 +73,5 @@ export function getPathEpisodesListForCharacter(data: CharacterSchema | null) {
 export function getPathCharachtersListForEpisode(data: EpisodeSchema | null) {
 	if (!data) return '';
 	const chracterIdList = data?.characters.map((ep) => getIdFromApiURL(ep));
-	return `${constants.PATH_EPISODES_PAGE}/list/${String(chracterIdList)}?${constants.QUERY_ID_EPISODE}=${data?.id}`;
+	return `${constants.PATH_CHARACTERS_PAGE}/list/${String(chracterIdList)}?${constants.QUERY_ID_EPISODE}=${data?.id}`;
 }

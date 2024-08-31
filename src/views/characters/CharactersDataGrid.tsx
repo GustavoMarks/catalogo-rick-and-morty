@@ -70,36 +70,40 @@ const columns: GridColDef<CharacterSchema>[] = [
 ];
 
 interface CharactersDataGridProps {
-	data: GetAllCharacterProps | null;
-	filters: GetAllCharacterFiltersProps;
+	data?: GetAllCharacterProps | null;
+	listaData?: CharacterSchema[];
+	filters?: GetAllCharacterFiltersProps;
 	isLoading: boolean;
-	onFiltersChange: (filters: GetAllCharacterFiltersProps) => void;
+	pagination?: boolean;
+	onFiltersChange?: (filters: GetAllCharacterFiltersProps) => void;
 }
 
 export default function CharactersDataGrid(props: CharactersDataGridProps) {
-	const { data, filters, isLoading, onFiltersChange } = props;
+	const { data, listaData, filters, isLoading, pagination, onFiltersChange } = props;
 
 	const getCurrentPage = useCallback(() => {
 		if (!filters || !filters?.page) return 0;
 		const parsedPage = parseInt(filters.page, 10);
 		if (parsedPage >= 1) return parsedPage - 1;
 		return 0;
-	}, [filters.page]);
+	}, [filters?.page]);
 
 	return (
 		<DataGrid
-			rows={data?.results || []}
+			rows={listaData || data?.results || []}
 			columns={columns}
 			disableRowSelectionOnClick
 			loading={isLoading}
 			localeText={{ noRowsLabel: 'No results' }}
-			pagination
+			pagination={pagination || undefined}
 			pageSizeOptions={[]}
-			paginationModel={{ pageSize: 20, page: getCurrentPage() }}
-			paginationMode='server'
-			rowCount={data?.info.count || 0}
+			paginationModel={pagination ? { pageSize: 20, page: getCurrentPage() } : undefined}
+			paginationMode={pagination ? 'server' : undefined}
+			rowCount={data?.info.count || undefined}
 			onPaginationModelChange={
-				(model) => onFiltersChange({ ...filters, page: String(model.page + 1) })
+				pagination ?
+					(model) => onFiltersChange?.({ ...filters, page: String(model.page + 1) })
+					: undefined
 			}
 		/>
 	);

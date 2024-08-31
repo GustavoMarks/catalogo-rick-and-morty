@@ -17,14 +17,12 @@ import {
 	CardActions,
 	CardContent,
 	CardHeader,
-	CardMedia,
 	Grid,
 	IconButton,
-	Skeleton,
-	Typography,
 	useMediaQuery,
 } from '@mui/material';
 
+import Banner from '@/components/Banner';
 import InfoBox from '@/components/InfoBox';
 
 import constants from '@/helpers/constants';
@@ -70,58 +68,11 @@ export default function EpisodeDetailsPage() {
 	return (
 		<Grid container mb={3}>
 			<Grid sx={{ position: 'relative' }} item sm={12} xs={12}>
-				<Card
-					sx={{
-						height: '300px',
-						position: 'relative',
-					}}
-				>
-					<CardMedia
-						image='/images/home-background.webp'
-						title='green portal'
-						sx={{
-							height: '100%',
-							width: '100%',
-							position: 'absolute',
-							top: 0,
-							right: 0,
-						}}
-
-					/>
-					<CardContent
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'center',
-							position: 'relative',
-							height: '100%',
-							backgroundColor: 'rgba(0,0,0,.6)',
-						}}
-					>
-
-						<Typography
-							variant='h3'
-							sx={{
-								fontWeight: '800',
-								zIndex: (theme) => theme.zIndex.modal,
-								textShadow: '0 0 8px #000',
-							}}
-						>
-							{
-								isLoading ? <Skeleton width={500} /> : data?.name
-							}
-						</Typography>
-						<Typography
-							variant='h6'
-							sx={{
-								zIndex: (theme) => theme.zIndex.modal,
-								textShadow: '0 0 8px #000',
-							}}
-						>
-							Episode page
-						</Typography>
-					</CardContent>
-				</Card>
+				<Banner
+					loading={isLoading}
+					subtitle='Episode page'
+					title={data?.name || ''}
+				/>
 			</Grid>
 			<Grid item sm={12}>
 				<Card>
