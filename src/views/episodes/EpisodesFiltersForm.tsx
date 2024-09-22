@@ -96,7 +96,7 @@ export default function EpisodesFiltersForm(props: EpisodesFiltersFormProps) {
 						placeholder='Pilot'
 						color='secondary'
 						value={filters.name}
-						handleDebounce={(value) => onChange({ ...filters, name: value })}
+						handleDebounce={(value) => onChange({ ...filters, name: value, page: undefined })}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={5.5}>
@@ -106,7 +106,7 @@ export default function EpisodesFiltersForm(props: EpisodesFiltersFormProps) {
 						placeholder='S01E01'
 						color='secondary'
 						value={filters.episode}
-						handleDebounce={(value) => onChange({ ...filters, episode: value })}
+						handleDebounce={(value) => onChange({ ...filters, episode: value, page: undefined })}
 					/>
 				</Grid>
 

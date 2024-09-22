@@ -57,7 +57,7 @@ export default function CharactersFiltersForm(props: CharactersFiltersFormProps)
 		event: SelectChangeEvent,
 		field: keyof GetAllCharacterFiltersProps,
 	) => {
-		onChange({ ...filters, [field]: event.target.value });
+		onChange({ ...filters, [field]: event.target.value, page: undefined });
 	};
 
 	const handleClearAllFilter = () => {
@@ -107,7 +107,7 @@ export default function CharactersFiltersForm(props: CharactersFiltersFormProps)
 						placeholder='Rick Sanchez'
 						color='secondary'
 						value={filters.name}
-						handleDebounce={(value) => onChange({ ...filters, name: value })}
+						handleDebounce={(value) => onChange({ ...filters, name: value, page: undefined })}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={2}>
@@ -134,7 +134,7 @@ export default function CharactersFiltersForm(props: CharactersFiltersFormProps)
 						label='Type'
 						color='secondary'
 						value={filters.type}
-						handleDebounce={(value) => onChange({ ...filters, type: value })}
+						handleDebounce={(value) => onChange({ ...filters, type: value, page: undefined })}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={2}>
