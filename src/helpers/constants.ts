@@ -47,4 +47,5 @@ export default {
 	GENDER_OPTIONS: gendersOptions,
 	QUERY_ID_CHRACTER: 'id_character',
 	QUERY_ID_EPISODE: 'id_episode',
+	QUERY_ID_LOCATION: 'id_location',
 } as const;

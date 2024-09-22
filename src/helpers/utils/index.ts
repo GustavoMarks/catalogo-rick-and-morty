@@ -4,6 +4,7 @@ import constants from '../constants';
 
 import { CharacterSchema } from '@/services/characters/types';
 import { EpisodeSchema } from '@/services/episodes/types';
+import { LocationSchema } from '@/services/locations/types';
 
 /* eslint-disable import/prefer-default-export */
 export function getAngle(cx: number, cy: number, ex: number, ey: number): number {
@@ -74,4 +75,10 @@ export function getPathCharachtersListForEpisode(data: EpisodeSchema | null) {
 	if (!data) return '';
 	const chracterIdList = data?.characters.map((ep) => getIdFromApiURL(ep));
 	return `${constants.PATH_CHARACTERS_PAGE}/list/${String(chracterIdList)}?${constants.QUERY_ID_EPISODE}=${data?.id}`;
+}
+
+export function getPathCharactersListFromLocation(data: LocationSchema | null) {
+	if (!data) return '';
+	const chracterIdList = data?.residents.map((ep) => getIdFromApiURL(ep));
+	return `${constants.PATH_CHARACTERS_PAGE}/list/${String(chracterIdList)}?${constants.QUERY_ID_LOCATION}=${data?.id}`;
 }
