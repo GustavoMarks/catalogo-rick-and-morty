@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import {
 	ArrowBack,
-	CalendarMonth,
+	DoorFrontOutlined,
 	FavoriteOutlined,
 	ListAltOutlined,
 	Tag,
@@ -26,22 +26,22 @@ import Banner from '@/components/Banner';
 import InfoBox from '@/components/InfoBox';
 
 import constants from '@/helpers/constants';
-import { getPathCharachtersListForEpisode, pageHistoryReturn } from '@/helpers/utils';
-import useEpisodes from '@/hooks/useEpisodes';
-import { EpisodeSchema } from '@/services/episodes/types';
+import { getPathCharactersListFromLocation, pageHistoryReturn } from '@/helpers/utils';
+import useLocations from '@/hooks/useLocations';
+import { LocationSchema } from '@/services/locations/types';
 
-export default function EpisodeDetailsPage() {
-	const [data, setData] = useState<EpisodeSchema | null>(null);
+export default function LocationDetailsPage() {
+	const [data, setData] = useState<LocationSchema | null>(null);
 	const [routerLoaded, setRouterLoaded] = useState(false);
-	const { getOneEpisodeByIDMutation } = useEpisodes();
+	const { getOneLocationByIDMutation } = useLocations();
 
-	const { isLoading } = getOneEpisodeByIDMutation;
+	const { isLoading } = getOneLocationByIDMutation;
 	const router = useRouter();
 	const layoutMatches = useMediaQuery('(min-width:600px)');
 
 	const handleUpdateData = useCallback(async (id: string) => {
 		try {
-			const fetchedData = await getOneEpisodeByIDMutation.mutateAsync(id);
+			const fetchedData = await getOneLocationByIDMutation.mutateAsync(id);
 			setData(fetchedData);
 		} catch (err) {
 			setData(null);
@@ -58,19 +58,19 @@ export default function EpisodeDetailsPage() {
 	}, [router.isReady]);
 
 	useEffect(() => {
-		if (getOneEpisodeByIDMutation.isError) {
+		if (getOneLocationByIDMutation.isError) {
 			router.push('/404');
 		}
-	}, [getOneEpisodeByIDMutation.isError]);
+	}, [getOneLocationByIDMutation.isError]);
 
-	const charactersListPath = useMemo(() => getPathCharachtersListForEpisode(data), [data]);
+	const charactersListPath = useMemo(() => getPathCharactersListFromLocation(data), [data]);
 
 	return (
 		<Grid container mb={3}>
 			<Grid sx={{ position: 'relative' }} item sm={12} xs={12}>
 				<Banner
 					loading={isLoading}
-					subtitle='Episode page'
+					subtitle='Location page'
 					title={data?.name || ''}
 				/>
 			</Grid>
@@ -100,17 +100,17 @@ export default function EpisodeDetailsPage() {
 						>
 							<Grid item md={2.5} sm={12} xs={12}>
 								<InfoBox
-									title='Air Date'
-									description={data?.air_date}
-									icon={<CalendarMonth />}
+									title='Location type'
+									description={data?.type}
+									icon={<Tag />}
 									loading={isLoading}
 								/>
 							</Grid>
-							<Grid item md={1.5} sm={12} xs={12}>
+							<Grid item md={2.5} sm={12} xs={12}>
 								<InfoBox
-									title='Episode code'
-									description={data?.episode}
-									icon={<Tag />}
+									title='Dimension'
+									description={data?.dimension}
+									icon={<DoorFrontOutlined />}
 									loading={isLoading}
 								/>
 							</Grid>
@@ -125,9 +125,9 @@ export default function EpisodeDetailsPage() {
 								<Button
 									startIcon={<ArrowBack />}
 									LinkComponent={Link}
-									href={constants.PATH_EPISODES_PAGE}
+									href={constants.PATH_LOCATIONS_PAGE}
 								>
-									Episodes list
+									Locations list
 								</Button>
 								<Button
 									startIcon={<ListAltOutlined />}
@@ -135,7 +135,7 @@ export default function EpisodeDetailsPage() {
 									href={charactersListPath}
 									disabled={isLoading}
 								>
-									Characters in this episode
+									Residents in this location
 								</Button>
 								<Button
 									endIcon={<FavoriteOutlined />}
