@@ -2,13 +2,14 @@ import { useCallback } from 'react';
 
 import Link from 'next/link';
 
-import { OpenInNew } from '@mui/icons-material';
-import { Box, Chip, Tooltip } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import DataGrid from '@/components/DataGrid';
+import DetailsTooltipLink, { DetailTooltipLinkTypes } from '@/components/DetailsTooltipLink';
+import FavToolotip from '@/components/FavTooltip';
 
-import constants from '@/helpers/constants';
+import { FavsTypes } from '@/context/types';
 import { getPathCharachtersListForEpisode } from '@/helpers/utils';
 import { EpisodeSchema, GetAllEpisodesFiltersProps, GetAllEpisodesProps } from '@/services/episodes/types';
 
@@ -25,24 +26,18 @@ const columns: GridColDef<EpisodeSchema>[] = [
 			const chractersListPath = getPathCharachtersListForEpisode(row);
 			return (
 				<Box>
-					<Link href={`${constants.PATH_EPISODES_PAGE}/details/${row.id}`}>
-						<Tooltip title='Open episode details page'>
-							<Chip
-								label={<OpenInNew sx={{ mb: -1 }} />}
-								clickable
-							/>
-						</Tooltip>
-					</Link>
+					<DetailsTooltipLink id={row.id} type={DetailTooltipLinkTypes.episode} />
 					<Link href={chractersListPath}>
 						<Chip sx={{ ml: 1 }} label='Characters List' clickable />
 					</Link>
+					<FavToolotip id={String(row.id)} type={FavsTypes.episodes} />
 				</Box>
 			);
 		},
 	},
 ];
 
-interface CharactersDataGridProps {
+interface EpisodesDataGridProps {
 	data?: GetAllEpisodesProps | null;
 	listaData?: EpisodeSchema[];
 	filters?: GetAllEpisodesFiltersProps;
@@ -51,7 +46,7 @@ interface CharactersDataGridProps {
 	onFiltersChange?: (filters: GetAllEpisodesFiltersProps) => void;
 }
 
-export default function EpisodesDataGrid(props: CharactersDataGridProps) {
+export default function EpisodesDataGrid(props: EpisodesDataGridProps) {
 	const { data, listaData, filters, isLoading, pagination = true, onFiltersChange } = props;
 
 	const getCurrentPage = useCallback(() => {

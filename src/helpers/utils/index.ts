@@ -2,7 +2,7 @@ import { NextRouter } from 'next/router';
 
 import constants from '../constants';
 
-import { CharacterSchema } from '@/services/characters/types';
+import { ChactacterOriginSchema, CharacterSchema } from '@/services/characters/types';
 import { EpisodeSchema } from '@/services/episodes/types';
 import { LocationSchema } from '@/services/locations/types';
 
@@ -75,6 +75,11 @@ export function getPathCharachtersListForEpisode(data: EpisodeSchema | null) {
 	if (!data) return '';
 	const chracterIdList = data?.characters.map((ep) => getIdFromApiURL(ep));
 	return `${constants.PATH_CHARACTERS_PAGE}/list/${String(chracterIdList)}?${constants.QUERY_ID_EPISODE}=${data?.id}`;
+}
+
+export function getPathLocationDetailFromCharacterOrigin(data: ChactacterOriginSchema | null) {
+	if (!data?.url) return '';
+	return `${constants.PATH_LOCATIONS_PAGE}/details/${getIdFromApiURL(data.url)}`;
 }
 
 export function getPathCharactersListFromLocation(data: LocationSchema | null) {

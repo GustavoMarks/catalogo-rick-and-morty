@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import {
 	ArrowBack,
 	DoorFrontOutlined,
-	FavoriteOutlined,
 	ListAltOutlined,
 	Tag,
 } from '@mui/icons-material';
@@ -23,10 +22,13 @@ import {
 } from '@mui/material';
 
 import Banner from '@/components/Banner';
+import FavButton from '@/components/FavButton';
 import InfoBox from '@/components/InfoBox';
 
+import { FavsTypes } from '@/context/types';
 import constants from '@/helpers/constants';
 import { getPathCharactersListFromLocation, pageHistoryReturn } from '@/helpers/utils';
+import useFavs from '@/hooks/useFavs';
 import useLocations from '@/hooks/useLocations';
 import { LocationSchema } from '@/services/locations/types';
 
@@ -39,6 +41,9 @@ export default function LocationDetailsPage() {
 	const router = useRouter();
 	const layoutMatches = useMediaQuery('(min-width:600px)');
 
+	const { addToFavs, removeFromFavs, checkIsFav } = useFavs();
+	const isFav = data?.id ? checkIsFav(String(data.id), FavsTypes.locations) : false;
+
 	const handleUpdateData = useCallback(async (id: string) => {
 		try {
 			const fetchedData = await getOneLocationByIDMutation.mutateAsync(id);
@@ -47,6 +52,16 @@ export default function LocationDetailsPage() {
 			setData(null);
 		}
 	}, []);
+
+	const handleToggleFav = () => {
+		if (!data?.id) return;
+		const targetId = String(data.id);
+		if (isFav) {
+			removeFromFavs(targetId, FavsTypes.locations);
+		} else {
+			addToFavs(targetId, FavsTypes.locations);
+		}
+	};
 
 	useEffect(() => {
 		if (!router.isReady || routerLoaded) return;
@@ -137,12 +152,10 @@ export default function LocationDetailsPage() {
 								>
 									Residents in this location
 								</Button>
-								<Button
-									endIcon={<FavoriteOutlined />}
-									disabled
-								>
-									Favorite
-								</Button>
+								<FavButton
+									isFav={isFav}
+									onClick={handleToggleFav}
+								/>
 							</ButtonGroup>
 
 						</CardActions>

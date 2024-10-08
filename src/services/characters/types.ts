@@ -26,7 +26,7 @@ export enum CharacterSpecies {
 	Disease = 'disease',
 }
 
-interface ChactacterOriginSchema {
+export interface ChactacterOriginSchema {
 	name: string;
 	url: string;
 }

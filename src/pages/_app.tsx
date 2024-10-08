@@ -12,6 +12,7 @@ import MainContainer from '@/components/layout/MainContainer';
 
 import queryClient from '@/configs/queryClient';
 import themeConfig from '@/configs/themeConfig';
+import { FavsProvider } from '@/context/FavsContext';
 
 import '@/styles/global.css';
 
@@ -19,24 +20,26 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={themeConfig}>
       <QueryClientProvider client={queryClient}>
-        <CssBaseline enableColorScheme />
-        <Head>
-          <title>Rick and Morty Catalog</title>
-          <meta name='description' content='Find everything about the series' />
-          <meta name='viewport' content='width=device-width, initial-scale=1' />
-          <link rel='apple-touch-icon' sizes='180x180' href='/images/icons/apple-touch-icon.png' />
-          <link rel='shortcut icon' href='/images/icons/android-chrome-192x192.png' />
-          <meta property='og:image' content='/images/home-background.webp' />
-          <meta property='og:image:alt' content='Rick and Morty Catalog' />
-          <meta property='og:image:type' content='image/webp' />
-          <meta property='og:image:width' content='1920' />
-          <meta property='og:image:height' content='1080' />
-        </Head>
-        <AppBar />
-        <MainContainer>
-          <Component {...pageProps} />
-        </MainContainer>
-        <Footer />
+        <FavsProvider>
+          <CssBaseline enableColorScheme />
+          <Head>
+            <title>Rick and Morty Catalog</title>
+            <meta name='description' content='Find everything about the series' />
+            <meta name='viewport' content='width=device-width, initial-scale=1' />
+            <link rel='apple-touch-icon' sizes='180x180' href='/images/icons/apple-touch-icon.png' />
+            <link rel='shortcut icon' href='/images/icons/android-chrome-192x192.png' />
+            <meta property='og:image' content='/images/home-background.webp' />
+            <meta property='og:image:alt' content='Rick and Morty Catalog' />
+            <meta property='og:image:type' content='image/webp' />
+            <meta property='og:image:width' content='1920' />
+            <meta property='og:image:height' content='1080' />
+          </Head>
+          <AppBar />
+          <MainContainer>
+            <Component {...pageProps} />
+          </MainContainer>
+          <Footer />
+        </FavsProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

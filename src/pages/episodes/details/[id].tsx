@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import {
 	ArrowBack,
 	CalendarMonth,
-	FavoriteOutlined,
 	ListAltOutlined,
 	Tag,
 } from '@mui/icons-material';
@@ -23,11 +22,14 @@ import {
 } from '@mui/material';
 
 import Banner from '@/components/Banner';
+import FavButton from '@/components/FavButton';
 import InfoBox from '@/components/InfoBox';
 
+import { FavsTypes } from '@/context/types';
 import constants from '@/helpers/constants';
 import { getPathCharachtersListForEpisode, pageHistoryReturn } from '@/helpers/utils';
 import useEpisodes from '@/hooks/useEpisodes';
+import useFavs from '@/hooks/useFavs';
 import { EpisodeSchema } from '@/services/episodes/types';
 
 export default function EpisodeDetailsPage() {
@@ -39,6 +41,9 @@ export default function EpisodeDetailsPage() {
 	const router = useRouter();
 	const layoutMatches = useMediaQuery('(min-width:600px)');
 
+	const { addToFavs, removeFromFavs, checkIsFav } = useFavs();
+	const isFav = data?.id ? checkIsFav(String(data.id), FavsTypes.episodes) : false;
+
 	const handleUpdateData = useCallback(async (id: string) => {
 		try {
 			const fetchedData = await getOneEpisodeByIDMutation.mutateAsync(id);
@@ -47,6 +52,16 @@ export default function EpisodeDetailsPage() {
 			setData(null);
 		}
 	}, []);
+
+	const handleToggleFav = () => {
+		if (!data?.id) return;
+		const targetId = String(data.id);
+		if (isFav) {
+			removeFromFavs(targetId, FavsTypes.episodes);
+		} else {
+			addToFavs(targetId, FavsTypes.episodes);
+		}
+	};
 
 	useEffect(() => {
 		if (!router.isReady || routerLoaded) return;
@@ -137,12 +152,10 @@ export default function EpisodeDetailsPage() {
 								>
 									Characters in this episode
 								</Button>
-								<Button
-									endIcon={<FavoriteOutlined />}
-									disabled
-								>
-									Favorite
-								</Button>
+								<FavButton
+									isFav={isFav}
+									onClick={handleToggleFav}
+								/>
 							</ButtonGroup>
 
 						</CardActions>

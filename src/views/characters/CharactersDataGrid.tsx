@@ -2,15 +2,16 @@ import { useCallback, useState } from 'react';
 
 import Link from 'next/link';
 
-import { OpenInNew } from '@mui/icons-material';
 import { Avatar, Box, Chip, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import DataGrid from '@/components/DataGrid';
+import DetailsTooltipLink, { DetailTooltipLinkTypes } from '@/components/DetailsTooltipLink';
+import FavToolotip from '@/components/FavTooltip';
 import ModalExpandImg from '@/components/ModalExpandImg';
 
-import constants from '@/helpers/constants';
-import { getPathEpisodesListForCharacter } from '@/helpers/utils';
+import { FavsTypes } from '@/context/types';
+import { getPathEpisodesListForCharacter, getPathLocationDetailFromCharacterOrigin } from '@/helpers/utils';
 import { CharacterSchema, GetAllCharacterFiltersProps, GetAllCharacterProps } from '@/services/characters/types';
 
 function RenderCharacterNameAvatar({ data }: { data: CharacterSchema }) {
@@ -43,26 +44,50 @@ const columns: GridColDef<CharacterSchema>[] = [
 	{ field: 'species', headerName: 'Species', flex: 0.5 },
 	{ field: 'type', headerName: 'Type', flex: 1, valueGetter: (value) => value || '-' },
 	{ field: 'gender', headerName: 'Gender', flex: 0.5, valueGetter: (value) => value || '-' },
-	{ field: 'origin.name', headerName: 'Origin', flex: 1, valueGetter: (value, row) => row.origin.name || '-' },
-	{ field: 'location.name', headerName: 'Location', flex: 1, valueGetter: (value, row) => row.location.name || '-' },
+	{
+		field: 'origin.name',
+		headerName: 'Origin',
+		flex: 1,
+		valueGetter: (value, row) => row.origin.name || '-',
+		renderCell: ({ row }) => {
+			const locationDetailPath = getPathLocationDetailFromCharacterOrigin(row.origin);
+			if (!locationDetailPath) return row.origin.name;
+			return (
+				<Link style={{ color: 'inherit' }} href={locationDetailPath}>
+					{row.origin.name}
+				</Link>
+			);
+		},
+	},
+	{
+		field: 'location.name',
+		headerName: 'Location',
+		flex: 1,
+		valueGetter: (value, row) => row.location.name || '-',
+		renderCell: ({ row }) => {
+			const locationDetailPath = getPathLocationDetailFromCharacterOrigin(row.location);
+			if (!locationDetailPath) return row.location.name;
+			return (
+				<Link style={{ color: 'inherit' }} href={locationDetailPath}>
+					{row.location.name}
+				</Link>
+			);
+		},
+	},
 	{
 		field: 'options',
 		headerName: 'Options',
-		flex: 0.8,
+		flex: 1,
 		sortable: false,
 		renderCell: ({ row }) => {
 			const episodeListPath = getPathEpisodesListForCharacter(row);
 			return (
 				<Box>
-					<Link href={`${constants.PATH_CHARACTERS_PAGE}/details/${row.id}`}>
-						<Chip
-							label={<OpenInNew sx={{ mb: -1 }} />}
-							clickable
-						/>
-					</Link>
+					<DetailsTooltipLink id={row.id} type={DetailTooltipLinkTypes.character} />
 					<Link href={episodeListPath}>
 						<Chip sx={{ ml: 1 }} label='Episodes List' clickable />
 					</Link>
+					<FavToolotip id={String(row.id)} type={FavsTypes.characters} />
 				</Box>
 			);
 		},
@@ -79,7 +104,7 @@ interface CharactersDataGridProps {
 }
 
 export default function CharactersDataGrid(props: CharactersDataGridProps) {
-	const { data, listaData, filters, isLoading, pagination, onFiltersChange } = props;
+	const { data, listaData, filters, isLoading, pagination = true, onFiltersChange } = props;
 
 	const getCurrentPage = useCallback(() => {
 		if (!filters || !filters?.page) return 0;

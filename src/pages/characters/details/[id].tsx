@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import {
 	ArrowBack,
 	BiotechOutlined,
-	FavoriteOutlined,
 	FingerprintOutlined,
 	GpsFixed,
 	ListAltOutlined,
@@ -29,10 +28,13 @@ import {
 
 import Banner from '@/components/Banner';
 import InfoBox from '@/components/InfoBox';
+import FavButton from '@/components/FavButton';
 
+import { FavsTypes } from '@/context/types';
 import constants from '@/helpers/constants';
 import { getPathEpisodesListForCharacter, pageHistoryReturn } from '@/helpers/utils';
 import useCharacters from '@/hooks/useCharacters';
+import useFavs from '@/hooks/useFavs';
 import { CharacterSchema } from '@/services/characters/types';
 
 export default function CharacterDetailsPage() {
@@ -44,6 +46,9 @@ export default function CharacterDetailsPage() {
 	const router = useRouter();
 	const layoutMatches = useMediaQuery('(min-width:600px)');
 
+	const { addToFavs, removeFromFavs, checkIsFav } = useFavs();
+	const isFav = data?.id ? checkIsFav(String(data.id), FavsTypes.characters) : false;
+
 	const handleUpdateData = useCallback(async (id: string) => {
 		try {
 			const fetchedData = await getOneCharacterByIDMutation.mutateAsync(id);
@@ -52,6 +57,16 @@ export default function CharacterDetailsPage() {
 			setData(null);
 		}
 	}, []);
+
+	const handleToggleFav = () => {
+		if (!data?.id) return;
+		const targetId = String(data.id);
+		if (isFav) {
+			removeFromFavs(targetId, FavsTypes.characters);
+		} else {
+			addToFavs(targetId, FavsTypes.characters);
+		}
+	};
 
 	useEffect(() => {
 		if (!router.isReady || routerLoaded) return;
@@ -185,12 +200,10 @@ export default function CharacterDetailsPage() {
 								>
 									Episodes with this Character
 								</Button>
-								<Button
-									endIcon={<FavoriteOutlined />}
-									disabled
-								>
-									Favorite
-								</Button>
+								<FavButton
+									isFav={isFav}
+									onClick={handleToggleFav}
+								/>
 							</ButtonGroup>
 
 						</CardActions>

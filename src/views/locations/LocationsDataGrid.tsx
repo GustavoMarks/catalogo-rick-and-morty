@@ -2,15 +2,15 @@ import { useCallback } from 'react';
 
 import Link from 'next/link';
 
-import { OpenInNew } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import Tooltip from '@mui/material/Tooltip';
 import { GridColDef } from '@mui/x-data-grid';
 
 import DataGrid from '@/components/DataGrid';
+import DetailsTooltipLink, { DetailTooltipLinkTypes } from '@/components/DetailsTooltipLink';
+import FavToolotip from '@/components/FavTooltip';
 
-import constants from '@/helpers/constants';
+import { FavsTypes } from '@/context/types';
 import { getPathCharactersListFromLocation } from '@/helpers/utils';
 import { GetAllLocationsFiltersProps, GetAllLocationsProps, LocationSchema } from '@/services/locations/types';
 
@@ -27,24 +27,18 @@ const columns: GridColDef<LocationSchema>[] = [
 			const chractersListPath = getPathCharactersListFromLocation(row);
 			return (
 				<Box>
-					<Link href={`${constants.PATH_LOCATIONS_PAGE}/details/${row.id}`}>
-						<Tooltip title='Open episode details page'>
-							<Chip
-								label={<OpenInNew sx={{ mb: -1 }} />}
-								clickable
-							/>
-						</Tooltip>
-					</Link>
+					<DetailsTooltipLink id={row.id} type={DetailTooltipLinkTypes.location} />
 					<Link href={chractersListPath}>
 						<Chip sx={{ ml: 1 }} label='Residents List' clickable />
 					</Link>
+					<FavToolotip id={String(row.id)} type={FavsTypes.locations} />
 				</Box>
 			);
 		},
 	},
 ];
 
-interface CharactersDataGridProps {
+interface LocationsDataGridProps {
 	data?: GetAllLocationsProps | null;
 	listaData?: LocationSchema[];
 	filters?: GetAllLocationsFiltersProps;
@@ -53,7 +47,7 @@ interface CharactersDataGridProps {
 	onFiltersChange?: (filters: GetAllLocationsFiltersProps) => void;
 }
 
-export default function LocationsDataGrid(props: CharactersDataGridProps) {
+export default function LocationsDataGrid(props: LocationsDataGridProps) {
 	const { data, listaData, filters, isLoading, pagination = true, onFiltersChange } = props;
 
 	const getCurrentPage = useCallback(() => {
