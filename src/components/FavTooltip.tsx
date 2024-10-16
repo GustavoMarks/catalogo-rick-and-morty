@@ -2,11 +2,11 @@ import { FavoriteBorderOutlined, FavoriteOutlined } from '@mui/icons-material';
 import { IconButton, Tooltip, Typography } from '@mui/material';
 
 import fontFamily from '@/configs/fontFamily';
-import { FavsTypes } from '@/context/types';
+import { ModuleTypes } from '@/helpers/constants';
 import useFavs from '@/hooks/useFavs';
 
 interface FavTooltipProps {
-	type: FavsTypes;
+	type: ModuleTypes;
 	id: string;
 }
 

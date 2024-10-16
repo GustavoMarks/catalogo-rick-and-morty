@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { FavsProviderProps, FavsTypes } from './types';
+import { FavsProviderProps } from './types';
+import { ModuleTypes } from '@/helpers/constants';
 
 const defaultProvider: FavsProviderProps = {
 	addToFavs: () => null,
@@ -22,35 +23,35 @@ function FavsProvider({ children }: Props) {
 	const [favEpisodesIds, setFavEpisodesIds] = useState<string[]>([]);
 	const [favLocationsIds, setFavLocationsIds] = useState<string[]>([]);
 
-	const handleLocalStorageSave = (arrayUpdate: string[], type: FavsTypes) => {
+	const handleLocalStorageSave = (arrayUpdate: string[], type: ModuleTypes) => {
 		const stringifiedArray = JSON.stringify(arrayUpdate);
 		switch (type) {
-			case FavsTypes.characters:
-				localStorage.setItem(`favs/${FavsTypes.characters}`, stringifiedArray);
+			case ModuleTypes.characters:
+				localStorage.setItem(`favs/${ModuleTypes.characters}`, stringifiedArray);
 				break;
-			case FavsTypes.episodes:
-				localStorage.setItem(`favs/${FavsTypes.episodes}`, stringifiedArray);
+			case ModuleTypes.episodes:
+				localStorage.setItem(`favs/${ModuleTypes.episodes}`, stringifiedArray);
 				break;
-			case FavsTypes.locations:
-				localStorage.setItem(`favs/${FavsTypes.locations}`, stringifiedArray);
+			case ModuleTypes.locations:
+				localStorage.setItem(`favs/${ModuleTypes.locations}`, stringifiedArray);
 				break;
 			default:
 				break;
 		}
 	};
 
-	const addToFavs = (id: string, type: FavsTypes) => {
+	const addToFavs = (id: string, type: ModuleTypes) => {
 		let arrayUpdate: string[] = [];
 		switch (type) {
-			case FavsTypes.characters:
+			case ModuleTypes.characters:
 				arrayUpdate = [...favCharactersIds, id];
 				setFavCharactersIds(arrayUpdate);
 				break;
-			case FavsTypes.episodes:
+			case ModuleTypes.episodes:
 				arrayUpdate = [...favEpisodesIds, id];
 				setFavEpisodesIds(arrayUpdate);
 				break;
-			case FavsTypes.locations:
+			case ModuleTypes.locations:
 				arrayUpdate = [...favLocationsIds, id];
 				setFavLocationsIds(arrayUpdate);
 				break;
@@ -60,18 +61,18 @@ function FavsProvider({ children }: Props) {
 		handleLocalStorageSave(arrayUpdate, type);
 	};
 
-	const removeFromFavs = (id: string, type: FavsTypes) => {
+	const removeFromFavs = (id: string, type: ModuleTypes) => {
 		let arrayUpdate: string[] = [];
 		switch (type) {
-			case FavsTypes.characters:
+			case ModuleTypes.characters:
 				arrayUpdate = favCharactersIds.filter((favId) => favId !== id);
 				setFavCharactersIds(arrayUpdate);
 				break;
-			case FavsTypes.episodes:
+			case ModuleTypes.episodes:
 				arrayUpdate = favEpisodesIds.filter((favId) => favId !== id);
 				setFavEpisodesIds(arrayUpdate);
 				break;
-			case FavsTypes.locations:
+			case ModuleTypes.locations:
 				arrayUpdate = favLocationsIds.filter((favId) => favId !== id);
 				setFavLocationsIds(arrayUpdate);
 				break;
@@ -81,13 +82,13 @@ function FavsProvider({ children }: Props) {
 		handleLocalStorageSave(arrayUpdate, type);
 	};
 
-	const checkIsFav = (id: string, type: FavsTypes) => {
+	const checkIsFav = (id: string, type: ModuleTypes) => {
 		switch (type) {
-			case FavsTypes.characters:
+			case ModuleTypes.characters:
 				return favCharactersIds.includes(id);
-			case FavsTypes.episodes:
+			case ModuleTypes.episodes:
 				return favEpisodesIds.includes(id);
-			case FavsTypes.locations:
+			case ModuleTypes.locations:
 				return favLocationsIds.includes(id);
 			default:
 				return false;
@@ -96,9 +97,9 @@ function FavsProvider({ children }: Props) {
 
 	const handleLoadFromLocalStorage = () => {
 		try {
-			const storagedFavCharactersIds = localStorage.getItem(`favs/${FavsTypes.characters}`);
-			const storagedFavEpisodesIds = localStorage.getItem(`favs/${FavsTypes.episodes}`);
-			const storagedFavLocationsIds = localStorage.getItem(`favs/${FavsTypes.locations}`);
+			const storagedFavCharactersIds = localStorage.getItem(`favs/${ModuleTypes.characters}`);
+			const storagedFavEpisodesIds = localStorage.getItem(`favs/${ModuleTypes.episodes}`);
+			const storagedFavLocationsIds = localStorage.getItem(`favs/${ModuleTypes.locations}`);
 
 			const parsedFavCharactersIds = storagedFavCharactersIds
 				? JSON.parse(storagedFavCharactersIds) : [];
@@ -114,9 +115,9 @@ function FavsProvider({ children }: Props) {
 			setFavCharactersIds([]);
 			setFavEpisodesIds([]);
 			setFavLocationsIds([]);
-			handleLocalStorageSave([], FavsTypes.characters);
-			handleLocalStorageSave([], FavsTypes.episodes);
-			handleLocalStorageSave([], FavsTypes.locations);
+			handleLocalStorageSave([], ModuleTypes.characters);
+			handleLocalStorageSave([], ModuleTypes.episodes);
+			handleLocalStorageSave([], ModuleTypes.locations);
 		}
 	};
 

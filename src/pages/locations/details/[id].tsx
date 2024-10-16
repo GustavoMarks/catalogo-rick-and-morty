@@ -25,8 +25,7 @@ import Banner from '@/components/Banner';
 import FavButton from '@/components/FavButton';
 import InfoBox from '@/components/InfoBox';
 
-import { FavsTypes } from '@/context/types';
-import constants from '@/helpers/constants';
+import constants, { ModuleTypes } from '@/helpers/constants';
 import { getPathCharactersListFromLocation, pageHistoryReturn } from '@/helpers/utils';
 import useFavs from '@/hooks/useFavs';
 import useLocations from '@/hooks/useLocations';
@@ -42,7 +41,7 @@ export default function LocationDetailsPage() {
 	const layoutMatches = useMediaQuery('(min-width:600px)');
 
 	const { addToFavs, removeFromFavs, checkIsFav } = useFavs();
-	const isFav = data?.id ? checkIsFav(String(data.id), FavsTypes.locations) : false;
+	const isFav = data?.id ? checkIsFav(String(data.id), ModuleTypes.locations) : false;
 
 	const handleUpdateData = useCallback(async (id: string) => {
 		try {
@@ -57,9 +56,9 @@ export default function LocationDetailsPage() {
 		if (!data?.id) return;
 		const targetId = String(data.id);
 		if (isFav) {
-			removeFromFavs(targetId, FavsTypes.locations);
+			removeFromFavs(targetId, ModuleTypes.locations);
 		} else {
-			addToFavs(targetId, FavsTypes.locations);
+			addToFavs(targetId, ModuleTypes.locations);
 		}
 	};
 

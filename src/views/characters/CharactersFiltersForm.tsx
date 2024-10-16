@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { FilterAltOffOutlined } from '@mui/icons-material';
-import { Divider, Grid, IconButton, SelectChangeEvent, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, Grid, SelectChangeEvent, Typography } from '@mui/material';
 
+import ClearFiltersBtn from '@/components/ClearFiltersBtn';
 import DebounceInput from '@/components/DebounceInput';
+import FilterFavBtn from '@/components/FilterFavBtn';
 import Select from '@/components/Select';
 
-import constants from '@/helpers/constants';
+import constants, { ModuleTypes } from '@/helpers/constants';
 import { GetAllCharacterFiltersProps } from '@/services/characters/types';
 
 const blankFilterValues: GetAllCharacterFiltersProps = {
@@ -91,7 +92,7 @@ export default function CharactersFiltersForm(props: CharactersFiltersFormProps)
 	}, [filters]);
 	return (
 		<form>
-			<Grid container spacing={3}>
+			<Grid container spacing={constants.FORM_SPACING}>
 				<Grid item xs={12}>
 					<Typography
 						variant='h6'
@@ -100,7 +101,7 @@ export default function CharactersFiltersForm(props: CharactersFiltersFormProps)
 					</Typography>
 					<Divider />
 				</Grid>
-				<Grid item xs={12} sm={3}>
+				<Grid item xs={12} sm={2.5}>
 					<DebounceInput
 						fullWidth
 						label='Name'
@@ -146,15 +147,18 @@ export default function CharactersFiltersForm(props: CharactersFiltersFormProps)
 						noneOption
 					/>
 				</Grid>
-				<Grid item xs={12} sm={1}>
-					<Tooltip title='Clear all filters'>
-						<IconButton
-							color='secondary'
-							onClick={handleClearAllFilter}
-						>
-							<FilterAltOffOutlined />
-						</IconButton>
-					</Tooltip>
+				<Grid item xs={12} sm={1.5}>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							height: '100%',
+						}}
+					>
+						<ClearFiltersBtn onClick={handleClearAllFilter} />
+						<FilterFavBtn type={ModuleTypes.characters} />
+					</Box>
 				</Grid>
 			</Grid>
 		</form>

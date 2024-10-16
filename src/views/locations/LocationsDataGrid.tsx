@@ -10,7 +10,7 @@ import DataGrid from '@/components/DataGrid';
 import DetailsTooltipLink, { DetailTooltipLinkTypes } from '@/components/DetailsTooltipLink';
 import FavToolotip from '@/components/FavTooltip';
 
-import { FavsTypes } from '@/context/types';
+import { ModuleTypes } from '@/helpers/constants';
 import { getPathCharactersListFromLocation } from '@/helpers/utils';
 import { GetAllLocationsFiltersProps, GetAllLocationsProps, LocationSchema } from '@/services/locations/types';
 
@@ -31,7 +31,7 @@ const columns: GridColDef<LocationSchema>[] = [
 					<Link href={chractersListPath}>
 						<Chip sx={{ ml: 1 }} label='Residents List' clickable />
 					</Link>
-					<FavToolotip id={String(row.id)} type={FavsTypes.locations} />
+					<FavToolotip id={String(row.id)} type={ModuleTypes.locations} />
 				</Box>
 			);
 		},

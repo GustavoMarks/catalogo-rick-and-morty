@@ -9,7 +9,7 @@ import DataGrid from '@/components/DataGrid';
 import DetailsTooltipLink, { DetailTooltipLinkTypes } from '@/components/DetailsTooltipLink';
 import FavToolotip from '@/components/FavTooltip';
 
-import { FavsTypes } from '@/context/types';
+import { ModuleTypes } from '@/helpers/constants';
 import { getPathCharachtersListForEpisode } from '@/helpers/utils';
 import { EpisodeSchema, GetAllEpisodesFiltersProps, GetAllEpisodesProps } from '@/services/episodes/types';
 
@@ -30,7 +30,7 @@ const columns: GridColDef<EpisodeSchema>[] = [
 					<Link href={chractersListPath}>
 						<Chip sx={{ ml: 1 }} label='Characters List' clickable />
 					</Link>
-					<FavToolotip id={String(row.id)} type={FavsTypes.episodes} />
+					<FavToolotip id={String(row.id)} type={ModuleTypes.episodes} />
 				</Box>
 			);
 		},

@@ -10,7 +10,7 @@ import DetailsTooltipLink, { DetailTooltipLinkTypes } from '@/components/Details
 import FavToolotip from '@/components/FavTooltip';
 import ModalExpandImg from '@/components/ModalExpandImg';
 
-import { FavsTypes } from '@/context/types';
+import { ModuleTypes } from '@/helpers/constants';
 import { getPathEpisodesListForCharacter, getPathLocationDetailFromCharacterOrigin } from '@/helpers/utils';
 import { CharacterSchema, GetAllCharacterFiltersProps, GetAllCharacterProps } from '@/services/characters/types';
 
@@ -87,7 +87,7 @@ const columns: GridColDef<CharacterSchema>[] = [
 					<Link href={episodeListPath}>
 						<Chip sx={{ ml: 1 }} label='Episodes List' clickable />
 					</Link>
-					<FavToolotip id={String(row.id)} type={FavsTypes.characters} />
+					<FavToolotip id={String(row.id)} type={ModuleTypes.characters} />
 				</Box>
 			);
 		},

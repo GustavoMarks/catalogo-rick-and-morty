@@ -28,6 +28,12 @@ const gendersOptions: SelectOptionProps[] = [
 	{ value: CharacterGenders.Unknown, label: 'Unknown' },
 ];
 
+export enum ModuleTypes {
+	characters = 'characters',
+	episodes = 'episodes',
+	locations = 'locations',
+}
+
 export default {
 	FOOTER_REM_HEIGHT: '5rem',
 	APPBAR_REM_HEIGHT: '4rem',
@@ -48,4 +54,5 @@ export default {
 	QUERY_ID_CHRACTER: 'id_character',
 	QUERY_ID_EPISODE: 'id_episode',
 	QUERY_ID_LOCATION: 'id_location',
+	FORM_SPACING: 2,
 } as const;

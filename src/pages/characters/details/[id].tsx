@@ -27,11 +27,10 @@ import {
 } from '@mui/material';
 
 import Banner from '@/components/Banner';
-import InfoBox from '@/components/InfoBox';
 import FavButton from '@/components/FavButton';
+import InfoBox from '@/components/InfoBox';
 
-import { FavsTypes } from '@/context/types';
-import constants from '@/helpers/constants';
+import constants, { ModuleTypes } from '@/helpers/constants';
 import { getPathEpisodesListForCharacter, pageHistoryReturn } from '@/helpers/utils';
 import useCharacters from '@/hooks/useCharacters';
 import useFavs from '@/hooks/useFavs';
@@ -47,7 +46,7 @@ export default function CharacterDetailsPage() {
 	const layoutMatches = useMediaQuery('(min-width:600px)');
 
 	const { addToFavs, removeFromFavs, checkIsFav } = useFavs();
-	const isFav = data?.id ? checkIsFav(String(data.id), FavsTypes.characters) : false;
+	const isFav = data?.id ? checkIsFav(String(data.id), ModuleTypes.characters) : false;
 
 	const handleUpdateData = useCallback(async (id: string) => {
 		try {
@@ -62,9 +61,9 @@ export default function CharacterDetailsPage() {
 		if (!data?.id) return;
 		const targetId = String(data.id);
 		if (isFav) {
-			removeFromFavs(targetId, FavsTypes.characters);
+			removeFromFavs(targetId, ModuleTypes.characters);
 		} else {
-			addToFavs(targetId, FavsTypes.characters);
+			addToFavs(targetId, ModuleTypes.characters);
 		}
 	};
 
