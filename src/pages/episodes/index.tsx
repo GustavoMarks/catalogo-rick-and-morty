@@ -45,6 +45,7 @@ export default function EpisodesList() {
 					isLoading={isLoading}
 					filters={filters}
 					onFiltersChange={setFilters}
+					pagination
 				/>
 			</Grid>
 		</Grid>

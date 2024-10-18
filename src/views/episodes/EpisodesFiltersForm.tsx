@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { FilterAltOffOutlined } from '@mui/icons-material';
-import { Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 
+import ClearFiltersBtn from '@/components/ClearFiltersBtn';
 import DebounceInput from '@/components/DebounceInput';
+import FilterFavBtn from '@/components/FilterFavBtn';
 
+import { ModuleTypes } from '@/helpers/constants';
 import { GetAllCharacterFiltersProps } from '@/services/characters/types';
 import { GetAllEpisodesFiltersProps } from '@/services/episodes/types';
 
@@ -99,7 +101,7 @@ export default function EpisodesFiltersForm(props: EpisodesFiltersFormProps) {
 						handleDebounce={(value) => onChange({ ...filters, name: value, page: undefined })}
 					/>
 				</Grid>
-				<Grid item xs={12} sm={5.5}>
+				<Grid item xs={12} sm={5}>
 					<DebounceInput
 						fullWidth
 						label='Episode code'
@@ -110,15 +112,18 @@ export default function EpisodesFiltersForm(props: EpisodesFiltersFormProps) {
 					/>
 				</Grid>
 
-				<Grid item xs={12} sm={1}>
-					<Tooltip title='Clear all filters'>
-						<IconButton
-							color='secondary'
-							onClick={handleClearAllFilter}
-						>
-							<FilterAltOffOutlined />
-						</IconButton>
-					</Tooltip>
+				<Grid item xs={12} sm={1.5}>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							height: '100%',
+						}}
+					>
+						<ClearFiltersBtn onClick={handleClearAllFilter} />
+						<FilterFavBtn type={ModuleTypes.episodes} />
+					</Box>
 				</Grid>
 			</Grid>
 		</form>
