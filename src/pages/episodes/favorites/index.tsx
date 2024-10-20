@@ -44,7 +44,7 @@ export default function EpisodesList() {
 	}, [favEpisodesIds]);
 
 	return (
-		<Grid container spacing={3} mb={3}>
+		<Grid container spacing={constants.FORM_SPACING} mb={3}>
 			<Grid sx={{ position: 'relative' }} item sm={12} xs={12}>
 				<EpisodesBanner />
 			</Grid>

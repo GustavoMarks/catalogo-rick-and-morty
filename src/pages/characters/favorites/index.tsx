@@ -59,7 +59,7 @@ export default function CharacterList() {
 					}}
 					action={(
 						<IconButton
-							onClick={() => pageHistoryReturn(router, constants.PATH_EPISODES_PAGE)}
+							onClick={() => pageHistoryReturn(router, constants.PATH_CHARACTERS_PAGE)}
 							aria-label='return'
 						>
 							<ArrowBack />

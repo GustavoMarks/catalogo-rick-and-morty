@@ -4,6 +4,7 @@ import {
 	Grid,
 } from '@mui/material';
 
+import constants from '@/helpers/constants';
 import useLocations from '@/hooks/useLocations';
 import { GetAllLocationsFiltersProps, GetAllLocationsProps } from '@/services/locations/types';
 import LocationsBanner from '@/views/locations/LocationsBanner';
@@ -27,7 +28,7 @@ export default function LocationsList() {
 	}, [filters]);
 
 	return (
-		<Grid container spacing={3} mb={3}>
+		<Grid container spacing={constants.FORM_SPACING} mb={3}>
 			<Grid sx={{ position: 'relative' }} item sm={12} xs={12}>
 				<LocationsBanner />
 			</Grid>
@@ -45,6 +46,7 @@ export default function LocationsList() {
 					isLoading={isLoading}
 					filters={filters}
 					onFiltersChange={setFilters}
+					pagination
 				/>
 			</Grid>
 		</Grid>
