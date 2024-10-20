@@ -19,6 +19,7 @@ export async function getAllEpisodesByFilter(filters?: GetAllEpisodesFiltersProp
 
 export async function getEpisodesByIDList(ids: string[]): Promise<EpisodeSchema[]> {
 	try {
+		if (!ids || !ids.length) return [];
 		const response = await api.get(`${EPISODE_ENDPOINT}/${ids.join(',')}`);
 		if (Array.isArray(response.data)) return response.data;
 		if (typeof response.data === 'object') return [response.data];
