@@ -1,93 +1,127 @@
-import { update } from '@/features/pageSlice';
-import { useApiGet, useAppDispatch, useLocalStorageFavorites } from '@/hooks';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 
-import CharactersTable from '@/components/CharactersTable';
-import Paginator from '@/components/Paginator';
-import FilterController from '@/components/FilterController';
-import RickAndMortyImg from '../assets/rickAndMorty.png';
-import BackgroundImg from '../assets/background.webp';
+import Link from 'next/link';
+
+import {
+	Box,
+	Button,
+	Card,
+	CardActionArea,
+	CardContent,
+	CardHeader,
+	CardMedia,
+	Divider,
+	Grid,
+	Grow,
+	Typography,
+} from '@mui/material';
+
+import Banner from '@/components/Banner';
+import HomeBannerIllustration from '@/components/illustrations/HomeBannerIllustration';
+
+import constants from '@/helpers/constants';
+
+interface CardPageProps {
+	hrefImg: string;
+	altImgText: string;
+	path: string;
+	description: string;
+	title: string;
+}
+
+function CargPage(props: CardPageProps) {
+	const { hrefImg, altImgText, path, description, title } = props;
+	const [hoverOn, setHoverOn] = useState(false);
+
+	return (
+		<Grow in timeout={500}>
+			<div
+				onMouseOver={() => setHoverOn(true)}
+				onFocus={() => setHoverOn(true)}
+				onMouseLeave={() => setHoverOn(false)}
+			>
+				<Card sx={{ display: 'flex' }} elevation={hoverOn ? 10 : undefined}>
+					<CardMedia
+						component='img'
+						image={hrefImg}
+						title={altImgText}
+						sx={{ width: hoverOn ? 200 : 150 }}
+					/>
+					<CardActionArea LinkComponent={Link} href={path} sx={{ display: 'flex' }}>
+						<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+							<CardHeader title={title} />
+							<CardContent>
+								<Typography paragraph variant='body2'>
+									{description}
+								</Typography>
+								<Button
+									variant='contained'
+									color='secondary'
+									sx={{ fontWeight: 'bolder' }}
+								>
+									Show me what you got ➜
+								</Button>
+							</CardContent>
+						</Box>
+					</CardActionArea>
+
+				</Card>
+			</div>
+		</Grow>
+	);
+}
 
 export default function Home() {
-
-  const apiGet = useApiGet();
-  const apiGetFavs = useApiGet();
-  const storeDispatch = useAppDispatch();
-  const favStorage = useLocalStorageFavorites();
-  const router = useRouter();
-  const { page, name, species, type, gender, status, fav } = router.query;
-
-  const requestPage = async (query: string) => {
-    await apiGet.request('/character/' + query);
-  }
-
-  const requestFavs = async () => {
-    const favList = favStorage.getItems();
-    const query = JSON.stringify(favList);
-
-    await apiGetFavs.request(`/character/${query}`);
-  }
-
-  useEffect(() => {
-    if (!fav) {
-      console.log(fav);
-      let query = '?';
-      if (page) query += `page=${page}`;
-      if (name) query += `&name=${name}`;
-      if (species) query += `&species=${species}`;
-      if (type) query += `&type=${type}`;
-      if (status) query += `&status=${status}`;
-      if (gender) query += `&gender=${gender}`;
-
-      requestPage(String(query));
-
-    } else requestFavs();
-
-  }, [page, name, species, type, gender, status, fav]);
-
-  useEffect(() => {
-    if (apiGet.error) {
-      storeDispatch(update({ results: null, info: null }));
-    }
-    else if (apiGet.loaded && apiGet.data && !fav) {
-      // Colocando dados de uma página num estado global caso não haja erro
-      storeDispatch(update(apiGet.data));
-
-    }
-  }, [apiGet.loaded]);
-
-  useEffect(() => {
-    if (apiGetFavs.error) {
-      storeDispatch(update({ results: null, info: null }));
-    }
-    else if (apiGetFavs.loaded && apiGetFavs.data && fav) {
-      storeDispatch(update({ results: apiGetFavs.data, info: null }));
-    }
-
-  }, [fav, apiGetFavs.loaded])
-
-  return (
-    <main className="MainPage" >
-      <header>
-        <Image id="main-background" src={BackgroundImg} alt="green portal" />
-        <span>
-          <h1>
-            <b>Rick and Morty </b> Catalog
-          </h1>
-          <p>
-            Complete list of characters
-          </p>
-
-          <Image id="decorate-img" src={RickAndMortyImg} alt="Rick And Morty" width={320} />
-        </span>
-      </header>
-      <div id="Container">
-        <FilterController />
-        <CharactersTable />
-        <Paginator />
-      </div>
-    </main>
-  )
+	return (
+		<Grid container spacing={3} mb={3}>
+			<Grid sx={{ position: 'relative' }} item sm={12} xs={12}>
+				<Banner
+					title='Rick and Morty Catalog'
+					subtitle='find everything about the series'
+					bigger
+				>
+					<HomeBannerIllustration />
+				</Banner>
+			</Grid>
+			<Grid item sm={12}>
+				<Box sx={{ color: (theme) => theme.palette.text.secondary }}>
+					<Divider>
+						<Typography
+							variant='h6'
+							padding={3}
+						>
+							Search and save yours favorites
+						</Typography>
+					</Divider>
+				</Box>
+			</Grid>
+			<Grid item sm={12} md={4} xs={12}>
+				<CargPage
+					title='Characters'
+					hrefImg={constants.URL_CHARACTERS_CARD_IMG}
+					altImgText='Baby Wizard'
+					path={constants.PATH_CHARACTERS_PAGE}
+					description='Search for all characters in the series, filtering by name, life status'
+				/>
+			</Grid>
+			<Grid item sm={12} md={4} xs={12}>
+				<CargPage
+					title='Episodes'
+					hrefImg={constants.URL_EPISODES_CARD_IMG}
+					altImgText='Pickle Rick'
+					path={constants.PATH_EPISODES_PAGE}
+					description='Search for all episodes shown so far, filter by name and code'
+				/>
+			</Grid>
+			<Grid item sm={12} md={4} xs={12}>
+				<CargPage
+					title='Locations'
+					hrefImg={constants.URL_LOCATIONS_CARD_IMG}
+					altImgText='Hole in the Wall Where the Men Can See it All'
+					path={constants.PATH_LOCATIONS_PAGE}
+					description='Search for all locations in the world of Rick and Morty and filter by name, type and dimension.'
+				/>
+			</Grid>
+		</Grid>
+	);
 }

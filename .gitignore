@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/package-lock.json
 
 # testing
 /coverage
@@ -14,10 +15,12 @@
 
 # production
 /build
+/src/version.ts
 
 # misc
 .DS_Store
 *.pem
+.vscode
 
 # debug
 npm-debug.log*

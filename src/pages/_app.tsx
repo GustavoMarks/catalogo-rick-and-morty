@@ -1,39 +1,46 @@
+import { QueryClientProvider } from 'react-query';
+
 import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
-import { Alegreya_Sans_SC } from 'next/font/google'
-import store from '@/store';
 import Head from 'next/head';
 
-import '@/styles/globals.css';
-import '@/styles/filterControllerStyles.css';
-import '@/styles/characterTableStyles.css';
-import '@/styles/paginatorStyles.css';
-import '@/styles/characterPageStyle.css';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
-const font = Alegreya_Sans_SC({
-  weight: '400',
-  subsets: ['latin'],
-})
+import AppBar from '@/components/layout/AppBar';
+import Footer from '@/components/layout/Footer';
+import MainContainer from '@/components/layout/MainContainer';
+
+import queryClient from '@/configs/queryClient';
+import themeConfig from '@/configs/themeConfig';
+import { FavsProvider } from '@/context/FavsContext';
+
+import '@/styles/global.css';
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Provider store={store} >
-    <>
-      <Head>
-        <title>Rick and Morty Catalog</title>
-        <meta name="description" content="Catalog with list of characters from the animated series Rick and Morty" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <main className={font.className}>
-        <Component {...pageProps} />
-      </main>
-      <footer className={font.className}>
-        2023 • <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/GustavoMarks/catalogo-rick-and-morty">
-          &nbsp;Visit on GitHub
-        </a>
-      </footer>
-    </>
-  </Provider>
+  return (
+    <ThemeProvider theme={themeConfig}>
+      <QueryClientProvider client={queryClient}>
+        <FavsProvider>
+          <CssBaseline enableColorScheme />
+          <Head>
+            <title>Rick and Morty Catalog</title>
+            <meta name='description' content='Find everything about the series' />
+            <meta name='viewport' content='width=device-width, initial-scale=1' />
+            <link rel='apple-touch-icon' sizes='180x180' href='/images/icons/apple-touch-icon.png' />
+            <link rel='shortcut icon' href='/images/icons/android-chrome-192x192.png' />
+            <meta property='og:image' content='/images/home-background.webp' />
+            <meta property='og:image:alt' content='Rick and Morty Catalog' />
+            <meta property='og:image:type' content='image/webp' />
+            <meta property='og:image:width' content='1920' />
+            <meta property='og:image:height' content='1080' />
+          </Head>
+          <AppBar />
+          <MainContainer>
+            <Component {...pageProps} />
+          </MainContainer>
+          <Footer />
+        </FavsProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
 }
